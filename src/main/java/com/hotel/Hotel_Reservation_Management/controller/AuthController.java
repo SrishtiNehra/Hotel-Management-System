@@ -1,17 +1,30 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
+import com.hotel.Hotel_Reservation_Management.dto.LoginDTO;
 import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
+import com.hotel.Hotel_Reservation_Management.security.JwtUtil;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
 import com.hotel.Hotel_Reservation_Management.service.CustomerService;
 import com.hotel.Hotel_Reservation_Management.validator.AdminValidator;
 import com.hotel.Hotel_Reservation_Management.validator.CustomerValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private AdminService adminService;
@@ -25,39 +38,47 @@ public class AuthController {
     @Autowired
     private CustomerValidator customerValidator;
 
-    // -----------------------------
+    // -------------------------
+    // LOGIN
+    // -------------------------
+    @PostMapping("/login")
+    public String login(@RequestBody LoginDTO dto) {
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                dto.getUsername(),
+                                dto.getPassword()
+                        )
+                );
+
+        UserDetails user =
+                (UserDetails) authentication.getPrincipal();
+
+        return jwtUtil.generateToken(user);
+    }
+
+    // -------------------------
     // REGISTER ADMIN
-    // -----------------------------
+    // -------------------------
     @PostMapping("/register/admin")
-    public AdminDTO registerAdmin(@RequestBody AdminDTO dto) {
+    public String registerAdmin(@RequestBody AdminDTO dto) {
 
         adminValidator.validate(dto);
-        return adminService.createAdmin(dto);
+        adminService.createAdmin(dto);
+
+        return "Admin registered successfully";
     }
 
-    // -----------------------------
+    // -------------------------
     // REGISTER CUSTOMER
-    // -----------------------------
+    // -------------------------
     @PostMapping("/register/customer")
-    public CustomerDTO registerCustomer(@RequestBody CustomerDTO dto) {
+    public String registerCustomer(@RequestBody CustomerDTO dto) {
 
         customerValidator.validate(dto);
-        return customerService.createCustomer(dto);
-    }
+        customerService.createCustomer(dto);
 
-    // -----------------------------
-    // LOGIN INFO (handled by Spring Security)
-    // -----------------------------
-    @PostMapping("/login")
-    public String loginInfo() {
-        return "Login is handled by Spring Security. Use /login endpoint with username & password.";
-    }
-
-    // -----------------------------
-    // LOGOUT INFO
-    // -----------------------------
-    @GetMapping("/logout")
-    public String logoutInfo() {
-        return "Logout handled by Spring Security automatically.";
+        return "Customer registered successfully";
     }
 }
