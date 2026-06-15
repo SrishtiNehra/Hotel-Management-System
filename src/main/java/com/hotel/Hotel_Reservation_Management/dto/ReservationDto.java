@@ -1,16 +1,17 @@
 package com.hotel.Hotel_Reservation_Management.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.hotel.Hotel_Reservation_Management.enums.ReservationStatus;
+
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class ReservationDto {
+public class ReservationDTO {
 
     private Long reservationId;
 
@@ -24,9 +25,9 @@ public class ReservationDto {
     private LocalDate plannedCheckOut;
 
     private LocalDateTime actualCheckIn;
+
     private LocalDateTime actualCheckOut;
 
-    @NotNull
     private ReservationStatus status;
 
     @NotNull

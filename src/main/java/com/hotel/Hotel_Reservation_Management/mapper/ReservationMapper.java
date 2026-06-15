@@ -1,48 +1,50 @@
 package com.hotel.Hotel_Reservation_Management.mapper;
 
-import com.hotel.Hotel_Reservation_Management.dto.ReservationDto;
+import com.hotel.Hotel_Reservation_Management.dto.ReservationDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Customer;
 import com.hotel.Hotel_Reservation_Management.entity.Reservation;
 import com.hotel.Hotel_Reservation_Management.entity.Room;
 
 public class ReservationMapper {
 
-    public static ReservationDto toDto(Reservation reservation) {
-        if (reservation == null) return null;
+    public static Reservation toEntity(
+            ReservationDTO dto,
+            Customer customer,
+            Room room
+    ) {
+        Reservation r = new Reservation();
 
-        ReservationDto dto = new ReservationDto();
-        dto.setReservationId(reservation.getReservationId());
-        dto.setBookingDate(reservation.getBookingDate());
-        dto.setPlannedCheckIn(reservation.getPlannedCheckIn());
-        dto.setPlannedCheckOut(reservation.getPlannedCheckOut());
-        dto.setActualCheckIn(reservation.getActualCheckIn());
-        dto.setActualCheckOut(reservation.getActualCheckOut());
-        dto.setStatus(reservation.getStatus());
+        r.setReservationId(dto.getReservationId());
+        r.setBookingDate(dto.getBookingDate());
+        r.setPlannedCheckIn(dto.getPlannedCheckIn());
+        r.setPlannedCheckOut(dto.getPlannedCheckOut());
+        r.setActualCheckIn(dto.getActualCheckIn());
+        r.setActualCheckOut(dto.getActualCheckOut());
+        r.setStatus(dto.getStatus());
 
-        if (reservation.getCustomer() != null)
-            dto.setCustomerId(reservation.getCustomer().getCustomerId());
+        r.setCustomer(customer);
+        r.setRoom(room);
 
-        if (reservation.getRoom() != null)
-            dto.setRoomId(reservation.getRoom().getRoomId());
-
-        return dto;
+        return r;
     }
 
-    public static Reservation toEntity(ReservationDto dto, Customer customer, Room room) {
-        if (dto == null) return null;
+    public static ReservationDTO toDTO(Reservation r) {
+        ReservationDTO dto = new ReservationDTO();
 
-        Reservation reservation = new Reservation();
-        reservation.setReservationId(dto.getReservationId());
-        reservation.setBookingDate(dto.getBookingDate());
-        reservation.setPlannedCheckIn(dto.getPlannedCheckIn());
-        reservation.setPlannedCheckOut(dto.getPlannedCheckOut());
-        reservation.setActualCheckIn(dto.getActualCheckIn());
-        reservation.setActualCheckOut(dto.getActualCheckOut());
-        reservation.setStatus(dto.getStatus());
+        dto.setReservationId(r.getReservationId());
+        dto.setBookingDate(r.getBookingDate());
+        dto.setPlannedCheckIn(r.getPlannedCheckIn());
+        dto.setPlannedCheckOut(r.getPlannedCheckOut());
+        dto.setActualCheckIn(r.getActualCheckIn());
+        dto.setActualCheckOut(r.getActualCheckOut());
+        dto.setStatus(r.getStatus());
 
-        reservation.setCustomer(customer);
-        reservation.setRoom(room);
+        if (r.getCustomer() != null)
+            dto.setCustomerId(r.getCustomer().getCustomerId());
 
-        return reservation;
+        if (r.getRoom() != null)
+            dto.setRoomId(r.getRoom().getRoomId());
+
+        return dto;
     }
 }

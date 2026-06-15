@@ -1,6 +1,6 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
-import com.hotel.Hotel_Reservation_Management.dto.ReservationDto;
+import com.hotel.Hotel_Reservation_Management.dto.ReservationDTO;
 import com.hotel.Hotel_Reservation_Management.enums.ReservationStatus;
 import com.hotel.Hotel_Reservation_Management.service.ReservationService;
 import com.hotel.Hotel_Reservation_Management.validator.ReservationValidator;
@@ -21,35 +21,35 @@ public class ReservationController {
     private ReservationValidator reservationValidator;
 
     @PostMapping
-    public ReservationDto create(@RequestBody ReservationDto dto) {
+    public ReservationDTO create(@RequestBody ReservationDTO dto) {
         reservationValidator.validate(dto);
         return reservationService.createReservation(dto);
     }
 
     @GetMapping("/{id}")
-    public ReservationDto getById(@PathVariable Long id) {
+    public ReservationDTO getById(@PathVariable Long id) {
         return reservationService.getReservationById(id);
     }
 
     @GetMapping
-    public List<ReservationDto> getAll() {
+    public List<ReservationDTO> getAll() {
         return reservationService.getAllReservations();
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<ReservationDto> getByCustomer(@PathVariable Long customerId) {
+    public List<ReservationDTO> getByCustomer(@PathVariable Long customerId) {
         return reservationService.getReservationsByCustomer(customerId);
     }
 
     @PutMapping("/{id}")
-    public ReservationDto update(@PathVariable Long id, @RequestBody ReservationDto dto) {
+    public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationDTO dto) {
         return reservationService.updateReservation(id, dto);
     }
 
     // CHECK-IN
     @PutMapping("/{id}/checkin")
-    public ReservationDto checkIn(@PathVariable Long id) {
-        ReservationDto dto = reservationService.getReservationById(id);
+    public ReservationDTO checkIn(@PathVariable Long id) {
+        ReservationDTO dto = reservationService.getReservationById(id);
         dto.setStatus(ReservationStatus.CHECKED_IN);
         dto.setActualCheckIn(LocalDateTime.now());
         return reservationService.updateReservation(id, dto);
@@ -57,8 +57,8 @@ public class ReservationController {
 
     // CHECK-OUT
     @PutMapping("/{id}/checkout")
-    public ReservationDto checkOut(@PathVariable Long id) {
-        ReservationDto dto = reservationService.getReservationById(id);
+    public ReservationDTO checkOut(@PathVariable Long id) {
+        ReservationDTO dto = reservationService.getReservationById(id);
         dto.setStatus(ReservationStatus.CHECKED_OUT);
         dto.setActualCheckOut(LocalDateTime.now());
         return reservationService.updateReservation(id, dto);

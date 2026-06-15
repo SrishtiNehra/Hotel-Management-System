@@ -1,6 +1,6 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
-import com.hotel.Hotel_Reservation_Management.dto.HotelDto;
+import com.hotel.Hotel_Reservation_Management.dto.HotelDTO;
 import com.hotel.Hotel_Reservation_Management.service.HotelService;
 import com.hotel.Hotel_Reservation_Management.validator.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +19,23 @@ public class HotelController {
     private HotelValidator hotelValidator;
 
     @PostMapping
-    public HotelDto create(@RequestBody HotelDto dto) {
+    public HotelDTO create(@RequestBody HotelDTO dto) {
         hotelValidator.validate(dto);
         return hotelService.createHotel(dto);
     }
 
     @GetMapping("/{id}")
-    public HotelDto getById(@PathVariable Long id) {
+    public HotelDTO getById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
     @GetMapping
-    public List<HotelDto> getAll() {
+    public List<HotelDTO> getAll() {
         return hotelService.getAllHotels();
     }
 
     @PutMapping("/{id}")
-    public HotelDto update(@PathVariable Long id, @RequestBody HotelDto dto) {
+    public HotelDTO update(@PathVariable Long id, @RequestBody HotelDTO dto) {
         hotelValidator.validate(dto);
         return hotelService.updateHotel(id, dto);
     }

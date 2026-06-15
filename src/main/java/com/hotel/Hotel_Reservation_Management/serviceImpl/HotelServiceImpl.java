@@ -1,45 +1,55 @@
 package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
-import com.hotel.Hotel_Reservation_Management.dto.HotelDto;
+import com.hotel.Hotel_Reservation_Management.dto.HotelDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Hotel;
 import com.hotel.Hotel_Reservation_Management.mapper.HotelMapper;
 import com.hotel.Hotel_Reservation_Management.repository.HotelRepository;
 import com.hotel.Hotel_Reservation_Management.service.HotelService;
+
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
-    @Autowired
-    private HotelRepository hotelRepository;
+	@Autowired
+    private final HotelRepository hotelRepository;
 
     @Override
-    public HotelDto createHotel(HotelDto dto) {
-        Hotel hotel = HotelMapper.toEntity(dto);
-        return HotelMapper.toDto(hotelRepository.save(hotel));
+    public HotelDTO createHotel(HotelDTO dto) {
+        return HotelMapper.toDTO(
+                hotelRepository.save(HotelMapper.toEntity(dto))
+        );
     }
 
     @Override
-    public HotelDto getHotelById(Long id) {
-        Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Hotel not found"));
-        return HotelMapper.toDto(hotel);
+    public HotelDTO getHotelById(Long id) {
+        return HotelMapper.toDTO(
+                hotelRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Hotel not found"))
+        );
     }
 
     @Override
-    public List<HotelDto> getAllHotels() {
+    public List<HotelDTO> getAllHotels() {
         return hotelRepository.findAll()
                 .stream()
-                .map(HotelMapper::toDto)
+                .map(HotelMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public HotelDto updateHotel(Long id, HotelDto dto) {
+    public HotelDTO updateHotel(Long id, HotelDTO dto) {
+
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
@@ -51,7 +61,7 @@ public class HotelServiceImpl implements HotelService {
         hotel.setContactNumber(dto.getContactNumber());
         hotel.setEmail(dto.getEmail());
 
-        return HotelMapper.toDto(hotelRepository.save(hotel));
+        return HotelMapper.toDTO(hotelRepository.save(hotel));
     }
 
     @Override

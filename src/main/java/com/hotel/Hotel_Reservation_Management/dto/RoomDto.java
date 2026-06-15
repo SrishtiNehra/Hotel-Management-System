@@ -1,5 +1,7 @@
 package com.hotel.Hotel_Reservation_Management.dto;
 
+import java.math.BigDecimal;
+
 import com.hotel.Hotel_Reservation_Management.enums.RoomStatus;
 import com.hotel.Hotel_Reservation_Management.enums.RoomType;
 
@@ -7,11 +9,9 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
-public class RoomDto {
+public class RoomDTO {
 
     private Long roomId;
 

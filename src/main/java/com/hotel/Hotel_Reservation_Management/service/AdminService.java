@@ -1,17 +1,17 @@
 package com.hotel.Hotel_Reservation_Management.service;
 
-import com.hotel.Hotel_Reservation_Management.dto.AdminDto;
+import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import java.util.List;
 
 public interface AdminService {
 
-    AdminDto createAdmin(AdminDto adminDto);
+    AdminDTO createAdmin(AdminDTO adminDTO);
 
-    AdminDto getAdminById(Long id);
+    AdminDTO getAdminById(Long id);
 
-    List<AdminDto> getAllAdmins();
+    List<AdminDTO> getAllAdmins();
 
-    AdminDto updateAdmin(Long id, AdminDto adminDto);
+    AdminDTO updateAdmin(Long id, AdminDTO adminDTO);
 
     void deleteAdmin(Long id);
 }

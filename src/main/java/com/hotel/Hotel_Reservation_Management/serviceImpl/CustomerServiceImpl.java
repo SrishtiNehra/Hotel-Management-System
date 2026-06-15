@@ -1,55 +1,61 @@
 package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
-import com.hotel.Hotel_Reservation_Management.dto.CustomerDto;
+
+import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Customer;
 import com.hotel.Hotel_Reservation_Management.mapper.CustomerMapper;
 import com.hotel.Hotel_Reservation_Management.repository.CustomerRepository;
 import com.hotel.Hotel_Reservation_Management.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+    private final CustomerRepository customerRepository;
+	
+	@Autowired
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public CustomerDto createCustomer(CustomerDto dto) {
+    public CustomerDTO createCustomer(CustomerDTO dto) {
 
         Customer customer = CustomerMapper.toEntity(dto);
-
         customer.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        return CustomerMapper.toDto(customerRepository.save(customer));
+        return CustomerMapper.toDTO(customerRepository.save(customer));
     }
 
     @Override
-    public CustomerDto getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-        return CustomerMapper.toDto(customer);
+    public CustomerDTO getCustomerById(Long id) {
+        return CustomerMapper.toDTO(
+                customerRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Customer not found"))
+        );
     }
 
     @Override
-    public List<CustomerDto> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
-                .map(CustomerMapper::toDto)
+                .map(CustomerMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CustomerDto updateCustomer(Long id, CustomerDto dto) {
+    public CustomerDTO updateCustomer(Long id, CustomerDTO dto) {
 
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
@@ -64,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
-        return CustomerMapper.toDto(customerRepository.save(customer));
+        return CustomerMapper.toDTO(customerRepository.save(customer));
     }
 
     @Override

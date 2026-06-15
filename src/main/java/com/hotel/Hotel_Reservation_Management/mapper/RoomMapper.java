@@ -1,16 +1,27 @@
 package com.hotel.Hotel_Reservation_Management.mapper;
 
-
-import com.hotel.Hotel_Reservation_Management.dto.RoomDto;
+import com.hotel.Hotel_Reservation_Management.dto.RoomDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Hotel;
 import com.hotel.Hotel_Reservation_Management.entity.Room;
 
 public class RoomMapper {
 
-    public static RoomDto toDto(Room room) {
-        if (room == null) return null;
+    public static Room toEntity(RoomDTO dto, Hotel hotel) {
+        Room room = new Room();
 
-        RoomDto dto = new RoomDto();
+        room.setRoomId(dto.getRoomId());
+        room.setRoomNumber(dto.getRoomNumber());
+        room.setRoomType(dto.getRoomType());
+        room.setPrice(dto.getPrice());
+        room.setStatus(dto.getStatus());
+        room.setHotel(hotel);
+
+        return room;
+    }
+
+    public static RoomDTO toDTO(Room room) {
+        RoomDTO dto = new RoomDTO();
+
         dto.setRoomId(room.getRoomId());
         dto.setRoomNumber(room.getRoomNumber());
         dto.setRoomType(room.getRoomType());
@@ -22,19 +33,5 @@ public class RoomMapper {
         }
 
         return dto;
-    }
-
-    public static Room toEntity(RoomDto dto, Hotel hotel) {
-        if (dto == null) return null;
-
-        Room room = new Room();
-        room.setRoomId(dto.getRoomId());
-        room.setRoomNumber(dto.getRoomNumber());
-        room.setRoomType(dto.getRoomType());
-        room.setPrice(dto.getPrice());
-        room.setStatus(dto.getStatus());
-        room.setHotel(hotel); // important relation mapping
-
-        return room;
     }
 }

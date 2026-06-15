@@ -1,39 +1,37 @@
 package com.hotel.Hotel_Reservation_Management.mapper;
 
-import com.hotel.Hotel_Reservation_Management.dto.HotelDto;
+import com.hotel.Hotel_Reservation_Management.dto.HotelDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Hotel;
 
 public class HotelMapper {
 
-    public static HotelDto toDto(Hotel hotel) {
-        if (hotel == null) return null;
+    public static Hotel toEntity(HotelDTO dto) {
+        Hotel h = new Hotel();
 
-        HotelDto dto = new HotelDto();
-        dto.setHotelId(hotel.getHotelId());
-        dto.setName(hotel.getName());
-        dto.setAddress(hotel.getAddress());
-        dto.setCity(hotel.getCity());
-        dto.setState(hotel.getState());
-        dto.setZipCode(hotel.getZipCode());
-        dto.setContactNumber(hotel.getContactNumber());
-        dto.setEmail(hotel.getEmail());
+        h.setHotelId(dto.getHotelId());
+        h.setName(dto.getName());
+        h.setAddress(dto.getAddress());
+        h.setCity(dto.getCity());
+        h.setState(dto.getState());
+        h.setZipCode(dto.getZipCode());
+        h.setContactNumber(dto.getContactNumber());
+        h.setEmail(dto.getEmail());
 
-        return dto;
+        return h;
     }
 
-    public static Hotel toEntity(HotelDto dto) {
-        if (dto == null) return null;
+    public static HotelDTO toDTO(Hotel h) {
+        HotelDTO dto = new HotelDTO();
 
-        Hotel hotel = new Hotel();
-        hotel.setHotelId(dto.getHotelId());
-        hotel.setName(dto.getName());
-        hotel.setAddress(dto.getAddress());
-        hotel.setCity(dto.getCity());
-        hotel.setState(dto.getState());
-        hotel.setZipCode(dto.getZipCode());
-        hotel.setContactNumber(dto.getContactNumber());
-        hotel.setEmail(dto.getEmail());
+        dto.setHotelId(h.getHotelId());
+        dto.setName(h.getName());
+        dto.setAddress(h.getAddress());
+        dto.setCity(h.getCity());
+        dto.setState(h.getState());
+        dto.setZipCode(h.getZipCode());
+        dto.setContactNumber(h.getContactNumber());
+        dto.setEmail(h.getEmail());
 
-        return hotel;
+        return dto;
     }
 }

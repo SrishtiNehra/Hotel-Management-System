@@ -1,33 +1,35 @@
 package com.hotel.Hotel_Reservation_Management.mapper;
 
-import com.hotel.Hotel_Reservation_Management.dto.AdminDto;
+import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Admin;
 
 public class AdminMapper {
 
-    public static AdminDto toDto(Admin admin) {
-        if (admin == null) return null;
+    public static Admin toEntity(AdminDTO dto) {
+        Admin a = new Admin();
 
-        AdminDto dto = new AdminDto();
-        dto.setAdminId(admin.getAdminId());
-        dto.setFullName(admin.getFullName());
-        dto.setEmail(admin.getEmail());
-        dto.setUsername(admin.getUsername());
-        dto.setPassword(admin.getPassword());
+        a.setAdminId(dto.getAdminId());
+        a.setUsername(dto.getUsername());
+        a.setPassword(dto.getPassword());
+        a.setFullName(dto.getFullName());
+        a.setEmail(dto.getEmail());
+        a.setRole(dto.getRole());
+        a.setStatus(dto.getStatus());
 
-        return dto;
+        return a;
     }
 
-    public static Admin toEntity(AdminDto dto) {
-        if (dto == null) return null;
+    public static AdminDTO toDTO(Admin a) {
+        AdminDTO dto = new AdminDTO();
 
-        Admin admin = new Admin();
-        admin.setAdminId(dto.getAdminId());
-        admin.setFullName(dto.getFullName());
-        admin.setEmail(dto.getEmail());
-        admin.setUsername(dto.getUsername());
-        admin.setPassword(dto.getPassword());
+        dto.setAdminId(a.getAdminId());
+        dto.setUsername(a.getUsername());
+        dto.setPassword(a.getPassword());
+        dto.setFullName(a.getFullName());
+        dto.setEmail(a.getEmail());
+        dto.setRole(a.getRole());
+        dto.setStatus(a.getStatus());
 
-        return admin;
+        return dto;
     }
 }

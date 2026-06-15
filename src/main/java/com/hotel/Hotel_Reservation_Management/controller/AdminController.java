@@ -1,6 +1,6 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
-import com.hotel.Hotel_Reservation_Management.dto.AdminDto;
+import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
 import com.hotel.Hotel_Reservation_Management.validator.AdminValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +19,23 @@ public class AdminController {
     private AdminValidator adminValidator;
 
     @PostMapping
-    public AdminDto create(@RequestBody AdminDto dto) {
+    public AdminDTO create(@RequestBody AdminDTO dto) {
         adminValidator.validate(dto);
         return adminService.createAdmin(dto);
     }
 
     @GetMapping("/{id}")
-    public AdminDto getById(@PathVariable Long id) {
+    public AdminDTO getById(@PathVariable Long id) {
         return adminService.getAdminById(id);
     }
 
     @GetMapping
-    public List<AdminDto> getAll() {
+    public List<AdminDTO> getAll() {
         return adminService.getAllAdmins();
     }
 
     @PutMapping("/{id}")
-    public AdminDto update(@PathVariable Long id, @RequestBody AdminDto dto) {
+    public AdminDTO update(@PathVariable Long id, @RequestBody AdminDTO dto) {
         adminValidator.validate(dto);
         return adminService.updateAdmin(id, dto);
     }

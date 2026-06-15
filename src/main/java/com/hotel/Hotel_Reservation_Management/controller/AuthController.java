@@ -1,7 +1,7 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
-import com.hotel.Hotel_Reservation_Management.dto.AdminDto;
-import com.hotel.Hotel_Reservation_Management.dto.CustomerDto;
+import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
+import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
 import com.hotel.Hotel_Reservation_Management.service.CustomerService;
 import com.hotel.Hotel_Reservation_Management.validator.AdminValidator;
@@ -29,7 +29,7 @@ public class AuthController {
     // REGISTER ADMIN
     // -----------------------------
     @PostMapping("/register/admin")
-    public AdminDto registerAdmin(@RequestBody AdminDto dto) {
+    public AdminDTO registerAdmin(@RequestBody AdminDTO dto) {
 
         adminValidator.validate(dto);
         return adminService.createAdmin(dto);
@@ -39,7 +39,7 @@ public class AuthController {
     // REGISTER CUSTOMER
     // -----------------------------
     @PostMapping("/register/customer")
-    public CustomerDto registerCustomer(@RequestBody CustomerDto dto) {
+    public CustomerDTO registerCustomer(@RequestBody CustomerDTO dto) {
 
         customerValidator.validate(dto);
         return customerService.createCustomer(dto);

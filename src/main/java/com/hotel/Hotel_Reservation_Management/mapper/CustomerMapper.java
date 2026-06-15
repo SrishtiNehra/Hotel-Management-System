@@ -1,37 +1,39 @@
 package com.hotel.Hotel_Reservation_Management.mapper;
 
-import com.hotel.Hotel_Reservation_Management.dto.CustomerDto;
+import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Customer;
 
 public class CustomerMapper {
 
-    public static CustomerDto toDto(Customer customer) {
-        if (customer == null) return null;
+    public static Customer toEntity(CustomerDTO dto) {
+        Customer c = new Customer();
 
-        CustomerDto dto = new CustomerDto();
-        dto.setCustomerId(customer.getCustomerId());
-        dto.setFullName(customer.getFullName());
-        dto.setEmail(customer.getEmail());
-        dto.setPhoneNumber(customer.getPhoneNumber());
-        dto.setIdProof(customer.getIdProof());
-        dto.setUsername(customer.getUsername());
-        dto.setPassword(customer.getPassword());
+        c.setCustomerId(dto.getCustomerId());
+        c.setUsername(dto.getUsername());
+        c.setPassword(dto.getPassword());
+        c.setFullName(dto.getFullName());
+        c.setEmail(dto.getEmail());
+        c.setPhoneNumber(dto.getPhoneNumber());
+        c.setIdProof(dto.getIdProof());
+        c.setRole(dto.getRole());
+        c.setStatus(dto.getStatus());
 
-        return dto;
+        return c;
     }
 
-    public static Customer toEntity(CustomerDto dto) {
-        if (dto == null) return null;
+    public static CustomerDTO toDTO(Customer c) {
+        CustomerDTO dto = new CustomerDTO();
 
-        Customer customer = new Customer();
-        customer.setCustomerId(dto.getCustomerId());
-        customer.setFullName(dto.getFullName());
-        customer.setEmail(dto.getEmail());
-        customer.setPhoneNumber(dto.getPhoneNumber());
-        customer.setIdProof(dto.getIdProof());
-        customer.setUsername(dto.getUsername());
-        customer.setPassword(dto.getPassword());
+        dto.setCustomerId(c.getCustomerId());
+        dto.setUsername(c.getUsername());
+        dto.setPassword(c.getPassword());
+        dto.setFullName(c.getFullName());
+        dto.setEmail(c.getEmail());
+        dto.setPhoneNumber(c.getPhoneNumber());
+        dto.setIdProof(c.getIdProof());
+        dto.setRole(c.getRole());
+        dto.setStatus(c.getStatus());
 
-        return customer;
+        return dto;
     }
 }

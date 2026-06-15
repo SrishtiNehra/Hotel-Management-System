@@ -1,11 +1,13 @@
 package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
-import com.hotel.Hotel_Reservation_Management.dto.AdminDto;
+import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Admin;
 import com.hotel.Hotel_Reservation_Management.mapper.AdminMapper;
 import com.hotel.Hotel_Reservation_Management.repository.AdminRepository;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,41 +17,39 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public AdminDto createAdmin(AdminDto dto) {
+    public AdminDTO createAdmin(AdminDTO dto) {
 
         Admin admin = AdminMapper.toEntity(dto);
-
         admin.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        return AdminMapper.toDto(adminRepository.save(admin));
+        return AdminMapper.toDTO(adminRepository.save(admin));
     }
 
     @Override
-    public AdminDto getAdminById(Long id) {
-        Admin admin = adminRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Admin not found"));
-        return AdminMapper.toDto(admin);
+    public AdminDTO getAdminById(Long id) {
+        return AdminMapper.toDTO(
+                adminRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Admin not found"))
+        );
     }
 
     @Override
-    public List<AdminDto> getAllAdmins() {
+    public List<AdminDTO> getAllAdmins() {
         return adminRepository.findAll()
                 .stream()
-                .map(AdminMapper::toDto)
+                .map(AdminMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AdminDto updateAdmin(Long id, AdminDto dto) {
+    public AdminDTO updateAdmin(Long id, AdminDTO dto) {
 
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
@@ -62,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
             admin.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
-        return AdminMapper.toDto(adminRepository.save(admin));
+        return AdminMapper.toDTO(adminRepository.save(admin));
     }
 
     @Override

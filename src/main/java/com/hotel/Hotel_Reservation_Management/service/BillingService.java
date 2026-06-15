@@ -1,17 +1,17 @@
 package com.hotel.Hotel_Reservation_Management.service;
 
-import com.hotel.Hotel_Reservation_Management.dto.BillingDto;
+import com.hotel.Hotel_Reservation_Management.dto.BillingDTO;
 import java.util.List;
 
 public interface BillingService {
 
-    BillingDto createBill(BillingDto billingDto);
+    BillingDTO createBill(BillingDTO billingDTO);
 
-    BillingDto getBillById(Long id);
+    BillingDTO getBillById(Long id);
 
-    BillingDto getBillByReservation(Long reservationId);
+    BillingDTO getBillByReservation(Long reservationId);
 
-    List<BillingDto> getAllBills();
+    List<BillingDTO> getAllBills();
 
-    BillingDto updateBill(Long id, BillingDto billingDto);
+    BillingDTO updateBill(Long id, BillingDTO billingDTO);
 }

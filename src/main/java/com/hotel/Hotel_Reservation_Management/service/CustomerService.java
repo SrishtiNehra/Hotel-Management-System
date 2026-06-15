@@ -1,17 +1,17 @@
 package com.hotel.Hotel_Reservation_Management.service;
 
-import com.hotel.Hotel_Reservation_Management.dto.CustomerDto;
+import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import java.util.List;
 
 public interface CustomerService {
 
-    CustomerDto createCustomer(CustomerDto customerDto);
+    CustomerDTO createCustomer(CustomerDTO customerDTO);
 
-    CustomerDto getCustomerById(Long id);
+    CustomerDTO getCustomerById(Long id);
 
-    List<CustomerDto> getAllCustomers();
+    List<CustomerDTO> getAllCustomers();
 
-    CustomerDto updateCustomer(Long id, CustomerDto customerDto);
+    CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO);
 
     void deleteCustomer(Long id);
 }
