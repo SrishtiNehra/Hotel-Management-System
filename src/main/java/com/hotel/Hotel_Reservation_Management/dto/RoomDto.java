@@ -1,0 +1,33 @@
+package com.hotel.Hotel_Reservation_Management.dto;
+
+import com.hotel.Hotel_Reservation_Management.enums.RoomStatus;
+import com.hotel.Hotel_Reservation_Management.enums.RoomType;
+
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+public class RoomDto {
+
+    private Long roomId;
+
+    @NotBlank
+    private String roomNumber;
+
+    @NotNull
+    private RoomType roomType;
+
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = false)
+    private BigDecimal price;
+
+    @NotNull
+    private RoomStatus status;
+
+    @NotNull
+    private Long hotelId;
+}
