@@ -1,0 +1,28 @@
+<h2>Create Reservation</h2>
+
+<input id="roomId" placeholder="Room ID">
+<input id="customerId" placeholder="Customer ID">
+
+<button onclick="book()">Book</button>
+
+<script>
+function book() {
+
+    fetch("/api/reservations", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+            room: { roomId: roomId.value },
+            customer: { customerId: customerId.value },
+            bookingDate: "2026-06-15",
+            plannedCheckIn: "2026-06-20",
+            plannedCheckOut: "2026-06-22",
+            status: "BOOKED"
+        })
+    })
+    .then(res => res.json())
+    .then(() => alert("Booked"));
+}
+</script>
+
+<script src="/js/script.js"></script>

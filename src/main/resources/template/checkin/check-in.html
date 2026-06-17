@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check In</title>
+</head>
+
+<body>
+
+<h2>Check-In</h2>
+
+<input id="reservationId" placeholder="Reservation ID">
+
+<button onclick="checkIn()">Check In</button>
+
+<script src="/js/script.js"></script>
+
+<script>
+function checkIn() {
+
+    fetch(`/api/reservations/${reservationId.value}/checkin`, {
+        method: "PUT",
+        headers: authHeaders()
+    })
+    .then(res => res.json())
+    .then(() => alert("Checked In Successfully"));
+}
+</script>
+
+</body>
+</html>

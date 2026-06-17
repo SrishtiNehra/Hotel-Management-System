@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: #222;
+    padding: 15px;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 80px;
+    background: url("/images/hotel-banner.jpg") no-repeat center;
+    background-size: cover;
+    color: white;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-outline {
+    padding: 10px 20px;
+    border: 1px solid white;
+    color: white;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+}

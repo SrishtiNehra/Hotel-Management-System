@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cancel Reservation</title>
+</head>
+<body>
+	<h2>Cancel Reservation</h2>
+
+<input id="id">
+<button onclick="cancel()">Cancel</button>
+
+<script src="/js/script.js"></script>
+
+<script>
+function cancel() {
+
+    fetch(`/api/reservations/${id.value}/cancel`, {
+        method: "PUT",
+        headers: authHeaders()
+    })
+    .then(() => alert("Cancelled"));
+}
+</script>
+</body>
+</html>

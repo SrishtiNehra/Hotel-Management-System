@@ -32,7 +32,7 @@ public class Room {
     private RoomStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @JoinColumn(name = "hotelId")
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room")

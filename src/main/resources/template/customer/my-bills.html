@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Bills</title>
+</head>
+<body>
+	<h2>My Bills</h2>
+
+<div id="bills"></div>
+
+<script src="/js/script.js"></script>
+
+<script>
+const customerId = 1;
+
+fetch(`/api/dashboard/customer/${customerId}`, {
+    headers: authHeaders()
+})
+.then(res => res.json())
+.then(data => {
+
+    let html = "";
+
+    data.myBills.forEach(b => {
+        html += `
+            <div class="card">
+                <p>Bill ID: ${b.billingId}</p>
+                <p>Amount: ${b.amount}</p>
+                <p>Status: ${b.paymentStatus}</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("bills").innerHTML = html;
+});
+</script>
+</body>
+</html>

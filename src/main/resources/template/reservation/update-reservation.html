@@ -1,0 +1,22 @@
+<h2>Update Reservation</h2>
+
+<input id="resId">
+<input id="status">
+
+<button onclick="updateRes()">Update</button>
+
+<script src="/js/script.js"></script>
+
+<script>
+function updateRes() {
+
+    fetch(`/api/reservations/${resId.value}`, {
+        method: "PUT",
+        headers: authHeaders(),
+        body: JSON.stringify({
+            status: status.value
+        })
+    })
+    .then(() => alert("Updated"));
+}
+</script>

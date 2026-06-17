@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 
@@ -32,6 +33,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         
         if (path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
+        if (path.contains("actuator")) {
             filterChain.doFilter(request, response);
             return;
         }

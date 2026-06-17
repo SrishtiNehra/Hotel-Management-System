@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Bookings</title>
+</head>
+<body>
+	<h2>My Bookings</h2>
+
+<div id="bookings"></div>
+
+<script src="/js/script.js"></script>
+
+<script>
+const customerId = 1;
+
+function loadBookings() {
+
+    fetch(`/api/reservations/customer/${customerId}`, {
+        headers: authHeaders()
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        let html = "";
+
+        data.forEach(b => {
+            html += `
+                <div class="card">
+                    <p>ID: ${b.reservationId}</p>
+                    <p>Status: ${b.status}</p>
+                </div>
+            `;
+        });
+
+        document.getElementById("bookings").innerHTML = html;
+    });
+}
+
+loadBookings();
+</script>
+</body>
+</html>

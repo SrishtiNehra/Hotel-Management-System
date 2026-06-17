@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Generate Bill</title>
+</head>
+<body>
+	<h2>Generate Bill</h2>
+
+<input id="reservationId" placeholder="Reservation ID">
+
+<button onclick="generate()">Generate</button>
+
+<script src="/js/script.js"></script>
+
+<script>
+function generate() {
+
+    fetch("/api/billing/generate", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+            reservation: {
+                reservationId: reservationId.value
+            }
+        })
+    })
+    .then(res => res.json())
+    .then(() => alert("Bill Generated"));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Hotel</title>
+    <link rel="stylesheet" href="/css/hotel.css">
+</head>
+
+<body>
+
+<h2>Add Hotel</h2>
+
+<input id="name" placeholder="Hotel Name">
+<input id="address" placeholder="Address">
+<input id="city" placeholder="City">
+<input id="state" placeholder="State">
+<input id="zipCode" placeholder="Zip Code">
+<input id="contactNumber" placeholder="Contact">
+<input id="email" placeholder="Email">
+
+<button onclick="addHotel()">Save</button>
+
+<script src="/js/script.js"></script>
+
+<script>
+function addHotel() {
+
+    fetch("/api/hotels", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+            name: name.value,
+            address: address.value,
+            city: city.value,
+            state: state.value,
+            zipCode: zipCode.value,
+            contactNumber: contactNumber.value,
+            email: email.value
+        })
+    })
+    .then(res => res.json())
+    .then(() => alert("Hotel Added"));
+}
+</script>
+
+</body>
+</html>

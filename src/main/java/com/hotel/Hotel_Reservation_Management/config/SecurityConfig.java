@@ -25,12 +25,27 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+            		
+                .requestMatchers("/actuator/**").permitAll()
 
                 .requestMatchers("/api/auth/**").permitAll()
+                
+                .requestMatchers(
+                	    "/auth/**",
+                	    "/css/**",
+                	    "/js/**",
+                	    "/images/**"
+                	).permitAll()
 
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/admins/**").hasRole("ADMIN")
 
                 .requestMatchers("/api/customers/**").hasRole("CUSTOMER")
+                
+                .requestMatchers("/api/rooms/**").permitAll()
+                
+                .requestMatchers("/api/billings/**").permitAll()
+                
+                .requestMatchers("/api/reservations/**").permitAll()
 
                 .requestMatchers("/api/dashboard/admin").hasRole("ADMIN")
 
