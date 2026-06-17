@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <h2>Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p>New user? <a th:href="@{/auth/register}">Register here</a></p>
+
+</div>
+
+<script src="/js/login.js"></script>
+
+</body>
+</html>

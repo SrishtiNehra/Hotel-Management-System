@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Register</title>
+</head>
+
+<body>
+
+<h2>Select Role to Register</h2>
+
+<select id="roleSelect" onchange="goToRegister(this.value)">
+    <option value="">Select Role</option>
+    <option value="ADMIN">Admin</option>
+    <option value="CUSTOMER">Customer</option>
+</select>
+
+<script>
+function goToRegister(role) {
+
+    if (!role) return;
+
+    if (role === "ADMIN") {
+        window.location.href = "/auth/register/admin";
+    } 
+    else if (role === "CUSTOMER") {
+        window.location.href = "/auth/register/customer";
+    }
+}
+</script>
+
+</body>
+</html>

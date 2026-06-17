@@ -1,6 +1,7 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
 import com.hotel.Hotel_Reservation_Management.dto.LoginDTO;
+import com.hotel.Hotel_Reservation_Management.dto.ResponseDTO;
 import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import com.hotel.Hotel_Reservation_Management.security.JwtUtil;
@@ -42,7 +43,7 @@ public class AuthController {
     // LOGIN
     // -------------------------
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO dto) {
+    public ResponseDTO login(@RequestBody LoginDTO dto) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
@@ -52,10 +53,15 @@ public class AuthController {
                         )
                 );
 
-        UserDetails user =
-                (UserDetails) authentication.getPrincipal();
+        UserDetails user = (UserDetails) authentication.getPrincipal();
 
-        return jwtUtil.generateToken(user);
+        String token = jwtUtil.generateToken(user);
+
+        ResponseDTO response = new ResponseDTO();
+        response.setToken(token);
+        response.setRole(user.getAuthorities().iterator().next().getAuthority());
+
+        return response;
     }
 
     // -------------------------

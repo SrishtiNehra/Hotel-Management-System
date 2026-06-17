@@ -8,6 +8,7 @@ import com.hotel.Hotel_Reservation_Management.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
+	@Autowired
     private final AdminRepository adminRepository;
+	
+	@Autowired
     private final PasswordEncoder passwordEncoder;
 
     @Override

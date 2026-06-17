@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<h2 style="padding:20px;">Admin Dashboard</h2>
+
+<div class="grid">
+
+    <div class="card">
+        <h3>Customers</h3>
+        <p id="customersCount">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Rooms</h3>
+        <p id="roomsCount">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Reservations</h3>
+        <p id="reservationsCount">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Revenue</h3>
+        <p id="billsCount">₹0</p>
+    </div>
+
+</div>
+
+<script src="/js/dashboard.js"></script>
+
+</body>
+</html>

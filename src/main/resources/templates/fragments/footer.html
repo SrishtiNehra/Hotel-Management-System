@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}">Hotel System</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<div th:fragment="footer">
+    <footer class="footer">
+        <p>© 2026 Hotel Paradise | All Rights Reserved</p>
+    </footer>
+</div>
+</body>
+</html>

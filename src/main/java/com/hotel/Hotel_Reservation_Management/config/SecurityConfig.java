@@ -25,52 +25,47 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            		
-                .requestMatchers("/actuator/**").permitAll()
 
-                .requestMatchers("/api/auth/**").permitAll()
-                
+                // ✅ PUBLIC PAGES
                 .requestMatchers(
-                	    "/auth/**",
-                	    "/css/**",
-                	    "/js/**",
-                	    "/images/**"
-                	).permitAll()
+                    "/",
+                    "/auth/**",
+                    "/api/auth/**",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/favicon.ico"
+                ).permitAll()
 
+                // ✅ ROLE BASED APIs
                 .requestMatchers("/api/admins/**").hasRole("ADMIN")
-
                 .requestMatchers("/api/customers/**").hasRole("CUSTOMER")
-                
-                .requestMatchers("/api/rooms/**").permitAll()
-                
-                .requestMatchers("/api/billings/**").permitAll()
-                
-                .requestMatchers("/api/reservations/**").permitAll()
 
                 .requestMatchers("/api/dashboard/admin").hasRole("ADMIN")
-
                 .requestMatchers("/api/dashboard/customer/**").hasRole("CUSTOMER")
 
+                // ❌ DO NOT use /** permitAll (REMOVE THIS)
                 .anyRequest().authenticated()
             )
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             );
 
-        http.addFilterBefore((Filter) jwtFilter,
+        http.addFilterBefore(jwtFilter,
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+    // ✅ REQUIRED FIX (VERY IMPORTANT)
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

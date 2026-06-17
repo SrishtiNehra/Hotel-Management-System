@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Register</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<h2>Admin Registration</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<input type="text" id="fullName" placeholder="Full Name">
+<input type="email" id="email" placeholder="Email">
+
+<button onclick="registerAdmin()">Register Admin</button>
+
+<script src="/js/register-admin.js"></script>
+<script src="/js/toast.js"></script>
+
+</body>
+</html>

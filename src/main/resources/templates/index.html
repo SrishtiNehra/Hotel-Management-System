@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Paradise</title>
+
+    <!-- ✅ Correct CSS loading -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- ✅ NAVBAR -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>Luxury Hotel Experience</h1>
+    <p>Book premium rooms at best prices</p>
+
+    <a th:href="@{/auth/login}" class="btn">Login</a>
+    <a th:href="@{/auth/register}" class="btn">Register</a>
+</section>
+
+<!-- FEATURES -->
+<section class="grid">
+
+    <div class="card">
+        <h3>🏨 Luxury Rooms</h3>
+        <p>Premium comfort with modern interiors</p>
+    </div>
+
+    <div class="card">
+        <h3>🍽️ Restaurant</h3>
+        <p>Multi-cuisine dining experience</p>
+    </div>
+
+    <div class="card">
+        <h3>📶 Free WiFi</h3>
+        <p>High-speed internet everywhere</p>
+    </div>
+
+    <div class="card">
+        <h3>🛎️ 24/7 Service</h3>
+        <p>Always available hospitality</p>
+    </div>
+
+</section>
+
+<!-- ✅ FOOTER -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
