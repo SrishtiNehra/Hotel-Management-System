@@ -14,13 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
+	Authentication authentication ;
+	
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -44,15 +46,21 @@ public class AuthController {
     // -------------------------
     @PostMapping("/login")
     public ResponseDTO login(@RequestBody LoginDTO dto) {
-
-        Authentication authentication =
+    	
+    	
+    	try {
+         authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 dto.getUsername(),
                                 dto.getPassword()
                         )
                 );
-
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
         UserDetails user = (UserDetails) authentication.getPrincipal();
 
         String token = jwtUtil.generateToken(user);
@@ -62,6 +70,7 @@ public class AuthController {
         response.setRole(user.getAuthorities().iterator().next().getAuthority());
 
         return response;
+        
     }
 
     // -------------------------

@@ -25,6 +25,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+            		
+            	
 
                 // ✅ PUBLIC PAGES
                 .requestMatchers(
@@ -34,7 +36,9 @@ public class SecurityConfig {
                     "/css/**",
                     "/js/**",
                     "/images/**",
-                    "/favicon.ico"
+                    "/favicon.ico",
+                    "/actuator/**"
+                   
                 ).permitAll()
 
                 // ✅ ROLE BASED APIs
