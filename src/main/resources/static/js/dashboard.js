@@ -1,11 +1,12 @@
 window.onload = function () {
 
-    const token = localStorage.getItem("token");
+    //const token = localStorage.getItem("token");
 
     fetch("/api/dashboard/admin", {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
+		method: "GET",
+		   headers: {
+		       "Authorization": "Bearer " + localStorage.getItem("token")
+		   }
     })
     .then(res => res.json())
     .then(data => {

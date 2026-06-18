@@ -1,43 +1,27 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head th:fragment="head(title)">
-    <meta charset="UTF-8">
-    <title th:text="${title}">Hotel System</title>
-
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-</head>
-
-<body>
-
 <div th:fragment="navbar">
-    <nav class="navbar">
+	<nav class="navbar">
 
-        <div class="logo">
-            Hotel Paradise
-        </div>
+		<div class="logo">Hotel Paradise</div>
 
-        <ul>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/rooms}">Rooms</a></li>
+		<ul>
+			<li><a th:href="@{/}">Home</a></li>
+			<li><a th:href="@{/rooms}">Rooms</a></li>
 
-            <!-- BEFORE LOGIN -->
-            <li><a th:href="@{/auth/login}">Login</a></li>
-            <li><a th:href="@{/auth/register}">Register</a></li>
+			<!-- BEFORE LOGIN -->
+			<li th:if="${loggedInUser == null}"><a th:href="@{/auth/login}">Login</a>
+			</li>
 
-            <!-- AFTER LOGIN (JS WILL CONTROL VISIBILITY) -->
-            <li id="dashboardLink" style="display:none;">
-                <a href="/dashboard">Dashboard</a>
-            </li>
+			<li th:if="${loggedInUser == null}"><a
+				th:href="@{/auth/register}">Register</a></li>
 
-            <li id="logoutBtn" style="display:none;">
-                <a href="#" onclick="logout()">Logout</a>
-            </li>
-        </ul>
+			<!-- AFTER LOGIN -->
+			<li th:if="${loggedInUser != null}"><a th:href="@{/dashboard}">Dashboard</a>
+			</li>
 
-    </nav>
+			<li th:if="${loggedInUser != null}"><a th:href="@{/logout}">Logout</a>
+			</li>
+
+		</ul>
+
+	</nav>
 </div>
-</body>
-</html>

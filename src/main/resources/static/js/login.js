@@ -12,28 +12,31 @@ function login() {
         },
         body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(res => {
+        .then(res => res.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("role", data.role);
 
-        // store token + role
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("role", res.role);
+                showToast("Login Successful!");
+            }
 
-        showToast("Login Successful!");
 
-        
-        if (res.role === "ROLE_ADMIN") {
-            window.location.href = "/dashboard/admin";
-        } 
-        else if (res.role === "ROLE_CUSTOMER") {
-            window.location.href = "/dashboard/customer";
-        } 
-        else {
-            alert("Invalid role");
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Login Failed");
-    });
+
+
+
+            if (data.role === "ADMIN") {
+                window.location.href = "/dashboard/admin";
+            }
+            else if (data.role === "CUSTOMER") {
+                window.location.href = "/dashboard/customer";
+            }
+            else {
+                alert("Invalid role");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Login Failed");
+        });
 }

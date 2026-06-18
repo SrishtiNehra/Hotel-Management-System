@@ -10,6 +10,11 @@ import com.hotel.Hotel_Reservation_Management.service.CustomerService;
 import com.hotel.Hotel_Reservation_Management.validator.AdminValidator;
 import com.hotel.Hotel_Reservation_Management.validator.CustomerValidator;
 
+import jakarta.servlet.http.HttpSession;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -45,32 +53,41 @@ public class AuthController {
     // LOGIN
     // -------------------------
     @PostMapping("/login")
-    public ResponseDTO login(@RequestBody LoginDTO dto) {
-    	
-    	
-    	try {
-         authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                dto.getUsername(),
-                                dto.getPassword()
-                        )
-                );
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
+    public ResponseEntity<?> login(@RequestBody LoginDTO dto,
+                                   HttpSession session) {
+
+        Authentication authentication;
+
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            dto.getUsername(),
+                            dto.getPassword()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("message", "Bad credentials");
+            error.put("status", false);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        }
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
         UserDetails user = (UserDetails) authentication.getPrincipal();
 
         String token = jwtUtil.generateToken(user);
 
+        // 🔥 IMPORTANT: store user in session for Thymeleaf navbar
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("role", user.getAuthorities().iterator().next().getAuthority());
+
         ResponseDTO response = new ResponseDTO();
+        response.setUsername(user.getUsername());
         response.setToken(token);
         response.setRole(user.getAuthorities().iterator().next().getAuthority());
 
-        return response;
-        
+        return ResponseEntity.ok(response);
     }
 
     // -------------------------
@@ -95,5 +112,12 @@ public class AuthController {
         customerService.createCustomer(dto);
 
         return "Customer registered successfully";
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        SecurityContextHolder.clearContext();
+        return "redirect:/auth/login";
     }
 }

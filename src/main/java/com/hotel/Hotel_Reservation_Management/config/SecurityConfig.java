@@ -40,6 +40,9 @@ public class SecurityConfig {
                     "/actuator/**"
                    
                 ).permitAll()
+                
+                .requestMatchers("/dashboard/**").permitAll()
+                .requestMatchers("/rooms/**").permitAll()
 
                 // ✅ ROLE BASED APIs
                 .requestMatchers("/api/admins/**").hasRole("ADMIN")

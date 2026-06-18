@@ -5,10 +5,12 @@ import com.hotel.Hotel_Reservation_Management.entity.Customer;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 
+@Component
 public class CustomUserDetails implements UserDetails {
 
     private String username;
@@ -16,7 +18,13 @@ public class CustomUserDetails implements UserDetails {
     private String role;
     private boolean enabled;
 
-    // ADMIN constructor
+    
+    public CustomUserDetails() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	// ADMIN constructor
     public CustomUserDetails(Admin admin) {
         this.username = admin.getUsername();
         this.password = admin.getPassword();
@@ -35,7 +43,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(
-                new SimpleGrantedAuthority("ROLE_" + role)
+                new SimpleGrantedAuthority( role)
         );
     }
 
