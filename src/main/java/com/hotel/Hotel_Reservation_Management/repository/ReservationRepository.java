@@ -25,4 +25,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r WHERE r.plannedCheckOut = :plannedCheckOut")
     List<Reservation> findByPlannedCheckOut(
             @Param("plannedCheckOut") LocalDate plannedCheckOut);
+    
+    long countByStatus(ReservationStatus status);
+
+    long countByCustomer_CustomerId(Long customerId);
 }

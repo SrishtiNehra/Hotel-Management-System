@@ -1,26 +1,47 @@
+window.onload = function () {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const roomId = params.get("roomId");
+
+    if (roomId) {
+        document.getElementById("roomId").value = roomId;
+        document.getElementById("roomId").readOnly = true; // ✅ ADD ONLY
+    }
+};
+
+function authHeader() {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    };
+}
+
 function createReservation() {
 
-    let roomId = localStorage.getItem("selectedRoom");
+    const reservation = {
+        bookingDate: document.getElementById("bookingDate").value,
+        plannedCheckIn: document.getElementById("plannedCheckIn").value,
+        plannedCheckOut: document.getElementById("plannedCheckOut").value,
+        roomId: document.getElementById("roomId").value,
+        customerId: document.getElementById("customerId").value,
 
-    let data = {
-        bookingDate: new Date().toISOString().split("T")[0],
-        plannedCheckIn: document.getElementById("checkIn").value,
-        plannedCheckOut: document.getElementById("checkOut").value,
-        customerId: 1,
-        roomId: roomId
+        // IMPORTANT: MUST match backend enum
+        status: "BOOKED"
     };
 
     fetch("/api/reservations", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        body: JSON.stringify(data)
+        headers: authHeader(),
+        body: JSON.stringify(reservation)
     })
-    .then(res => res.json())
-    .then(data => {
-        alert("Room Booked Successfully!");
-        window.location.href = "/customer/dashboard";
-    });
+    .then(res => {
+        if (!res.ok) throw new Error("Failed");
+
+        alert("Reservation Created!");
+
+        // redirect to bookings page
+        window.location.href = "/customer/bookings";
+    })
+    .catch(err => alert(err.message));
 }

@@ -1,21 +1,180 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.thymeleaf.org">
 
 <head>
     <title>Customer Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f7fb;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            height: 60px;
+            background: #0b1d3a;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            background: linear-gradient(180deg, #0b1d3a, #102a43);
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 12px 0;
+            padding: 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .sidebar a:hover {
+            background: #1f3b5c;
+            color: white;
+        }
+
+        .sidebar.collapsed a span {
+            display: none;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 80px 20px 20px;
+            transition: 0.3s;
+        }
+
+        .main.expanded {
+            margin-left: 90px;
+        }
+
+        /* CARDS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #0b1d3a;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 
-<h2>My Dashboard</h2>
-
-<div>
-    <h3>My Reservations</h3>
-    <p id="myReservations"></p>
-
-    <h3>My Bills</h3>
-    <div id="myBills"></div>
+<!-- TOP BAR -->
+<div class="topbar">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    <h5 class="ms-3 mb-0">Customer Dashboard</h5>
 </div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+    <a th:href="@{/dashboard/customer}"><span>Dashboard</span></a>
+    <a th:href="@{/customer/profile}"><span>My Profile</span></a>
+    <a th:href="@{/customer/edit-profile}"><span>Edit Profile</span></a>
+
+    <a th:href="@{/customer/bookings}"><span>My Bookings</span></a>
+    <a th:href="@{/customer/bills}"><span>My Bills</span></a>
+
+    <a th:href="@{/customer/create-reservation}"><span>Create Reservation</span></a>
+    <a th:href="@{/customer/rooms}"><span>Room Booking</span></a>
+
+    <a th:href="@{/customer/payment}"><span>Payment</span></a>
+
+    <a th:href="@{/customer/checkin-history}"><span>Check-in / Check-out</span></a>
+
+    <!-- Logout unchanged style -->
+    <a th:href="@{/}" class="logout">
+        <span>Logout</span>
+    </a>
+
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>My Reservations</h3>
+            <p id="myReservations">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Active Bookings</h3>
+            <p id="activeBookings">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Bills</h3>
+            <p id="totalBills">₹0</p>
+        </div>
+
+        <div class="card">
+            <h3>Pending Payments</h3>
+            <p id="pendingPayments">₹0</p>
+        </div>
+
+    </div>
+
+    
+
+</div>
+
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("collapsed");
+    document.getElementById("main").classList.toggle("expanded");
+}
+</script>
 
 <script src="/js/customer-dashboard.js"></script>
 

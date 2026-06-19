@@ -51,7 +51,7 @@ public class ReservationController {
     public ReservationDTO checkIn(@PathVariable Long id) {
         ReservationDTO dto = reservationService.getReservationById(id);
         dto.setStatus(ReservationStatus.CHECKED_IN);
-        dto.setActualCheckIn(LocalDateTime.now());
+        
         return reservationService.updateReservation(id, dto);
     }
 
@@ -60,7 +60,7 @@ public class ReservationController {
     public ReservationDTO checkOut(@PathVariable Long id) {
         ReservationDTO dto = reservationService.getReservationById(id);
         dto.setStatus(ReservationStatus.CHECKED_OUT);
-        dto.setActualCheckOut(LocalDateTime.now());
+        
         return reservationService.updateReservation(id, dto);
     }
 

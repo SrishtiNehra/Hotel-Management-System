@@ -1,9 +1,11 @@
 package com.hotel.Hotel_Reservation_Management.controller;
 
+import com.hotel.Hotel_Reservation_Management.enums.ReservationStatus;
 import com.hotel.Hotel_Reservation_Management.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,14 +40,16 @@ public class DashboardController {
         map.put("totalHotels", hotelRepository.count());
         map.put("totalRooms", roomRepository.count());
         map.put("totalReservations", reservationRepository.count());
-        map.put("totalBills", billingRepository.count());
 
-        map.put("activeReservations",
-                reservationRepository.findAll()
-                        .stream()
-                        .filter(r -> r.getStatus().name().equals("BOOKED"))
-                        .count()
-        );
+        // ✅ FIX: revenue instead of count
+        BigDecimal revenue = billingRepository.sumAllRevenue();
+        map.put("totalBills", revenue != null ? revenue : BigDecimal.ZERO);
+
+        // ✅ FIX: DB-level filtering instead of Java stream
+        long activeReservations =
+                reservationRepository.countByStatus(ReservationStatus.BOOKED);
+
+        map.put("activeReservations", activeReservations);
 
         return map;
     }
@@ -62,17 +66,10 @@ public class DashboardController {
                 reservationRepository.findByCustomer_CustomerId(customerId));
 
         map.put("totalMyReservations",
-                reservationRepository.findByCustomer_CustomerId(customerId).size());
+                reservationRepository.countByCustomer_CustomerId(customerId));
 
         map.put("myBills",
-                billingRepository.findAll()
-                        .stream()
-                        .filter(b -> b.getReservation()
-                                .getCustomer()
-                                .getCustomerId()
-                                .equals(customerId))
-                        .toList()
-        );
+                billingRepository.findByCustomerId(customerId));
 
         return map;
     }

@@ -42,7 +42,11 @@ public class SecurityConfig {
                 ).permitAll()
                 
                 .requestMatchers("/dashboard/**").permitAll()
-                .requestMatchers("/rooms/**").permitAll()
+                .requestMatchers("/admin/**").permitAll()
+                .requestMatchers("/api/admins/**").permitAll()
+                .requestMatchers("/customer/**").permitAll()
+                .requestMatchers("/api/customers/**").permitAll()
+                
 
                 // ✅ ROLE BASED APIs
                 .requestMatchers("/api/admins/**").hasRole("ADMIN")
@@ -54,10 +58,21 @@ public class SecurityConfig {
                 // ❌ DO NOT use /** permitAll (REMOVE THIS)
                 .anyRequest().authenticated()
             )
+            
+            .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")   // ✅ THIS IS THE FIX
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .permitAll()
+                )
+            
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             );
 
+        
+        
         http.addFilterBefore(jwtFilter,
                 UsernamePasswordAuthenticationFilter.class);
 

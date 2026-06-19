@@ -52,7 +52,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = ReservationMapper.toEntity(dto, customer, room);
         reservation.setStatus(ReservationStatus.BOOKED);
 
-        room.setStatus(RoomStatus.RESERVED);
+        room.setStatus(RoomStatus.AVAILABLE);
         roomRepository.save(room);
 
         return ReservationMapper.toDTO(reservationRepository.save(reservation));

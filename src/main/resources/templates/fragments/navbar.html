@@ -7,15 +7,12 @@
 			<li><a th:href="@{/}">Home</a></li>
 			<li><a th:href="@{/rooms}">Rooms</a></li>
 
-			<!-- BEFORE LOGIN -->
-			<li th:if="${loggedInUser == null}"><a th:href="@{/auth/login}">Login</a>
-			</li>
-
-			<li th:if="${loggedInUser == null}"><a
-				th:href="@{/auth/register}">Register</a></li>
-
 			<!-- AFTER LOGIN -->
-			<li th:if="${loggedInUser != null}"><a th:href="@{/dashboard}">Dashboard</a>
+			<li th:if="${loggedInUser != null and role == 'ADMIN'}"><a
+				th:href="@{/dashboard/admin}">Dashboard</a></li>
+
+			<li th:if="${loggedInUser != null and role == 'CUSTOMER'}">
+				<a th:href="@{/dashboard/customer}">Dashboard</a>
 			</li>
 
 			<li th:if="${loggedInUser != null}"><a th:href="@{/logout}">Logout</a>

@@ -1,6 +1,6 @@
 window.onload = function () {
 
-    let customerId = 1; // ideally from JWT decode later
+    let customerId = 1; // later replace with JWT
 
     fetch("/api/dashboard/customer/" + customerId, {
         headers: {
@@ -10,14 +10,19 @@ window.onload = function () {
     .then(res => res.json())
     .then(data => {
 
-        document.getElementById("myReservations").innerText =
-            data.totalMyReservations;
+        document.getElementById("myReservations").innerText = data.totalMyReservations;
+        document.getElementById("activeBookings").innerText = data.activeBookings;
+        document.getElementById("totalBills").innerText = "₹" + data.totalBills;
+        document.getElementById("pendingPayments").innerText = "₹" + data.pendingPayments;
 
         let billsDiv = document.getElementById("myBills");
+        billsDiv.innerHTML = "";
 
         data.myBills.forEach(b => {
             billsDiv.innerHTML += `
-                <p>₹${b.amount} - ${b.paymentStatus}</p>
+                <div class="p-2 bg-white mb-2 rounded shadow-sm">
+                    ₹${b.amount} - ${b.paymentStatus}
+                </div>
             `;
         });
 

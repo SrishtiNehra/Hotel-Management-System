@@ -25,10 +25,6 @@ public class Reservation {
 
     private LocalDate plannedCheckOut;
 
-    private LocalDateTime actualCheckIn;
-
-    private LocalDateTime actualCheckOut;
-
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 

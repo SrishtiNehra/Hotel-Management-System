@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    <title>Create Reservation</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            background: linear-gradient(180deg, #0b1d3a, #102a43);
+            padding: 20px;
+            color: white;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 12px 0;
+            padding: 10px;
+        }
+
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        .form-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>Customer</h3>
+
+    <a th:href="@{/dashboard/customer}">Dashboard</a>
+    <a th:href="@{/customer/create-reservation}">Create Reservation</a>
+    <a th:href="@{/customer/bookings}">My Bookings</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>Create Reservation</h2>
+
+    <div class="form-box">
+
+        <label>Booking Date</label>
+        <input type="date" id="bookingDate" class="form-control">
+
+        <label>Check In</label>
+        <input type="date" id="plannedCheckIn" class="form-control">
+
+        <label>Check Out</label>
+        <input type="date" id="plannedCheckOut" class="form-control">
+
+        <label>Room ID</label>
+        <input type="number" id="roomId" class="form-control">
+
+        <!-- IMPORTANT: auto fill from login later -->
+        <label>Customer ID</label>
+        <input type="number" id="customerId" class="form-control">
+
+        <button class="btn btn-primary w-100 mt-3"
+                onclick="createReservation()">
+            Create Reservation
+        </button>
+
+    </div>
+
+</div>
+
+<script src="/js/reservation.js"></script>
+
+</body>
+</html>

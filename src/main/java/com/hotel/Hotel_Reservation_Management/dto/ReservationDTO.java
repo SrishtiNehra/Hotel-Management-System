@@ -24,9 +24,7 @@ public class ReservationDTO {
     @NotNull
     private LocalDate plannedCheckOut;
 
-    private LocalDateTime actualCheckIn;
-
-    private LocalDateTime actualCheckOut;
+    
 
     private ReservationStatus status;
 

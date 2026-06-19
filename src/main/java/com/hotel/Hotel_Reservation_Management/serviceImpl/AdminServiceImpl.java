@@ -58,13 +58,17 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
-        admin.setFullName(dto.getFullName());
-        admin.setEmail(dto.getEmail());
-        admin.setUsername(dto.getUsername());
+        if (dto.getFullName() != null)
+            admin.setFullName(dto.getFullName());
 
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+        if (dto.getEmail() != null)
+            admin.setEmail(dto.getEmail());
+
+        if (dto.getUsername() != null)
+            admin.setUsername(dto.getUsername());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty())
             admin.setPassword(passwordEncoder.encode(dto.getPassword()));
-        }
 
         return AdminMapper.toDTO(adminRepository.save(admin));
     }
@@ -72,5 +76,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
+    }
+    
+    @Override
+    public AdminDTO getByUsername(String username) {
+
+        Admin admin = adminRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        return AdminMapper.toDTO(admin);
     }
 }

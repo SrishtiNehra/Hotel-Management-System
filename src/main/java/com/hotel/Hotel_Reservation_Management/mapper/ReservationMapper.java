@@ -18,8 +18,6 @@ public class ReservationMapper {
         r.setBookingDate(dto.getBookingDate());
         r.setPlannedCheckIn(dto.getPlannedCheckIn());
         r.setPlannedCheckOut(dto.getPlannedCheckOut());
-        r.setActualCheckIn(dto.getActualCheckIn());
-        r.setActualCheckOut(dto.getActualCheckOut());
         r.setStatus(dto.getStatus());
 
         r.setCustomer(customer);
@@ -35,8 +33,7 @@ public class ReservationMapper {
         dto.setBookingDate(r.getBookingDate());
         dto.setPlannedCheckIn(r.getPlannedCheckIn());
         dto.setPlannedCheckOut(r.getPlannedCheckOut());
-        dto.setActualCheckIn(r.getActualCheckIn());
-        dto.setActualCheckOut(r.getActualCheckOut());
+       
         dto.setStatus(r.getStatus());
 
         if (r.getCustomer() != null)

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>My Bookings</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #0b1d3a, #102a43);
+            padding: 20px;
+            color: white;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 12px 0;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover {
+            background: #1f3b5c;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #0b1d3a;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* TABLE */
+        table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        th {
+            background: #0b1d3a;
+            color: white;
+        }
+
+        /* MODAL */
+        #editModal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+
+        .modal-btn {
+            background: #0b1d3a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .modal-btn:hover {
+            background: #132a52;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h3>Customer</h3>
+
+    <a th:href="@{/dashboard/customer}">Dashboard</a>
+    <a th:href="@{/customer/create-reservation}">Create Reservation</a>
+    <a th:href="@{/customer/bookings}">My Bookings</a>
+    <a th:href="@{/}">Logout</a>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>My Bookings</h2>
+
+    <table class="table table-bordered text-center">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Status</th>
+            <th>Room</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody id="bookingTable"></tbody>
+        
+    </table>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal"
+     style="display:none; position:fixed; top:20%; left:50%;
+     transform:translateX(-50%); background:white; padding:20px;">
+
+    <input type="hidden" id="editId">
+
+    <label>Check In</label>
+    <input type="date" id="editCheckIn" class="form-control">
+
+    <label>Check Out</label>
+    <input type="date" id="editCheckOut" class="form-control">
+
+    <!-- ENUM FIX -->
+    <label>Status</label>
+    <select id="editStatus" class="form-control">
+        <option value="BOOKED">BOOKED</option>
+        <option value="CANCELLED">CANCELLED</option>
+        <option value="CHECKED_IN">CHECKED_IN</option>
+        <option value="CHECKED_OUT">CHECKED_OUT</option>
+    </select>
+    
+
+    <button onclick="updateReservation()" class="btn btn-primary w-100 mt-2">
+        Update
+    </button>
+
+    <button onclick="closeModal()" class="btn btn-secondary w-100 mt-2">
+        Close
+    </button>
+</div>
+
+<script src="/js/bookings.js"></script>
+
+</body>
+</html>

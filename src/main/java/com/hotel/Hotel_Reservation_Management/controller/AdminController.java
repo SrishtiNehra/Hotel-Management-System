@@ -4,6 +4,7 @@ import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
 import com.hotel.Hotel_Reservation_Management.validator.AdminValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class AdminController {
 
     @Autowired
     private AdminValidator adminValidator;
+    
+    @GetMapping("/profile")
+    public AdminDTO getProfile(Authentication auth) {
+        return adminService.getByUsername(auth.getName());
+    }
 
     @PostMapping
     public AdminDTO create(@RequestBody AdminDTO dto) {

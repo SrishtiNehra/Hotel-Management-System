@@ -14,4 +14,6 @@ public interface AdminService {
     AdminDTO updateAdmin(Long id, AdminDTO adminDTO);
 
     void deleteAdmin(Long id);
+    
+    AdminDTO getByUsername(String username);
 }
