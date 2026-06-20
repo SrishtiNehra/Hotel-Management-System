@@ -31,26 +31,33 @@ function loadBookings() {
                     <td>${r.status}</td>
                     <td>${r.roomId}</td>
 
-                    <td>
-					<button class="btn btn-success btn-sm"
-					    onclick="goToPayment(${r.reservationId})">
-					    Pay
-					</button>
-                        <button class="btn btn-warning btn-sm"
-                            onclick="openEdit(
-                                ${r.reservationId},
-                                '${r.plannedCheckIn}',
-                                '${r.plannedCheckOut}',
-                                '${r.status}'
-                            )">
-                            Edit
-                        </button>
+					<td>
+					    ${r.status === "BOOKED" ? `
+					        <button class="btn btn-success btn-sm"
+					            onclick="goToPayment(${r.reservationId})">
+					            Pay
+					        </button>
+					    ` : ""}
 
-                        <button class="btn btn-danger btn-sm"
-                            onclick="deleteReservation(${r.reservationId})">
-                            Cancel
-                        </button>
-                    </td>
+					    <button class="btn btn-warning btn-sm"
+					        onclick="openEdit(
+					            ${r.reservationId},
+					            '${r.plannedCheckIn}',
+					            '${r.plannedCheckOut}',
+					            '${r.status}'
+					        )">
+					        Edit
+					    </button>
+
+					    <button class="btn btn-danger btn-sm"
+					        onclick="deleteReservation(${r.reservationId})">
+					        Cancel
+					    </button>
+
+					    ${r.status === "PAID" ? `
+					        <span class="badge bg-success">PAID</span>
+					    ` : ""}
+					</td>
                 </tr>
             `;
             });

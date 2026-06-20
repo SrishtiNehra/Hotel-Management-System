@@ -22,6 +22,8 @@ public class ReservationMapper {
 
         r.setCustomer(customer);
         r.setRoom(room);
+       
+        
 
         return r;
     }
@@ -33,6 +35,7 @@ public class ReservationMapper {
         dto.setBookingDate(r.getBookingDate());
         dto.setPlannedCheckIn(r.getPlannedCheckIn());
         dto.setPlannedCheckOut(r.getPlannedCheckOut());
+        dto.setRoomPrice(r.getRoom().getPrice());
        
         dto.setStatus(r.getStatus());
 

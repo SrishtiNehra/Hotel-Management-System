@@ -13,12 +13,26 @@
     <h2>Payment</h2>
 
     <input type="hidden" id="reservationId">
+    <input type="hidden" id="amount">
 
-    <h4>Amount: ₹2000</h4>
+    <h4 id="amountText">Amount: ₹0</h4>
 
-    <button class="btn btn-primary" onclick="payNow()">
-        Pay Now
-    </button>
+    <!-- CARD FORM -->
+    <div class="card p-3 mt-3">
+
+        <input type="text" id="cardName" class="form-control mb-2" placeholder="Card Holder Name">
+
+        <input type="text" id="cardNumber" class="form-control mb-2" placeholder="Card Number">
+
+        <input type="text" id="expiry" class="form-control mb-2" placeholder="Expiry MM/YY">
+
+        <input type="text" id="cvv" class="form-control mb-2" placeholder="CVV">
+
+        <button class="btn btn-primary w-100" onclick="payNow()">
+            Pay Now
+        </button>
+
+    </div>
 
 </div>
 
