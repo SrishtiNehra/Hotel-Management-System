@@ -30,4 +30,6 @@ public class Billing {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
+
+
 }

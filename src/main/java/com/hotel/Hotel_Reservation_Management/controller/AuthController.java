@@ -66,9 +66,11 @@ public class AuthController {
                     )
             );
         } catch (AuthenticationException e) {
+
             Map<String, Object> error = new HashMap<>();
             error.put("message", "Bad credentials");
             error.put("status", false);
+
             return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
 
@@ -78,18 +80,28 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user);
 
-        // 🔥 IMPORTANT: store user in session for Thymeleaf navbar
-        session.setAttribute("username", user.getUsername());
-        session.setAttribute("role", user.getAuthorities().iterator().next().getAuthority());
+        // 🔥 GET CUSTOMER FROM DB
+        Long customerId = customerService
+                .findByUsername(user.getUsername())
+                .map(CustomerDTO::getCustomerId)
+                .orElse(null);
 
+        // session (thymeleaf support)
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("role",
+                user.getAuthorities().iterator().next().getAuthority());
+
+        // RESPONSE DTO
         ResponseDTO response = new ResponseDTO();
         response.setUsername(user.getUsername());
         response.setToken(token);
         response.setRole(user.getAuthorities().iterator().next().getAuthority());
 
+        // 🔥 IMPORTANT FIX
+        response.setCustomerId(customerId);
+
         return ResponseEntity.ok(response);
     }
-
     // -------------------------
     // REGISTER ADMIN
     // -------------------------

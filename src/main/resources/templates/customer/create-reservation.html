@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Create Reservation</title>
@@ -10,12 +10,16 @@
         body {
             background: #f4f7fb;
             font-family: 'Segoe UI', sans-serif;
+            margin: 0;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 240px;
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
             background: linear-gradient(180deg, #0b1d3a, #102a43);
             padding: 20px;
             color: white;
@@ -27,17 +31,69 @@
             text-decoration: none;
             margin: 12px 0;
             padding: 10px;
+            border-radius: 6px;
         }
 
+        .sidebar a:hover {
+            background: #1f3b5c;
+            color: white;
+        }
+
+        /* MAIN */
         .main {
             margin-left: 260px;
             padding: 30px;
         }
 
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #0b1d3a, #1f3b5c);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+
+        .page-header h2 {
+            margin: 0;
+        }
+
+        /* FORM CARD */
         .form-box {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            max-width: 700px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-top: 10px;
+            color: #0b1d3a;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
+        .btn-custom {
+            background: #0b1d3a;
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 600;
+        }
+
+        .btn-custom:hover {
+            background: #1f3b5c;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #6b7280;
         }
     </style>
 </head>
@@ -46,22 +102,30 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <h3>Customer</h3>
+
+    <h4 class="mb-4">Customer</h4>
 
     <a th:href="@{/dashboard/customer}">Dashboard</a>
     <a th:href="@{/customer/create-reservation}">Create Reservation</a>
     <a th:href="@{/customer/bookings}">My Bookings</a>
+
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-    <h2>Create Reservation</h2>
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Create Reservation</h2>
+        <p class="mb-0">Book your room easily in a few steps</p>
+    </div>
 
+    <!-- FORM -->
     <div class="form-box">
 
         <label>Booking Date</label>
-        <input type="date" id="bookingDate" class="form-control">
+        <input type="date" id="bookingDate" class="form-control" readonly>
+        <div class="hint">Auto-generated booking date</div>
 
         <label>Check In</label>
         <input type="date" id="plannedCheckIn" class="form-control">
@@ -72,12 +136,11 @@
         <label>Room ID</label>
         <input type="number" id="roomId" class="form-control">
 
-        <!-- IMPORTANT: auto fill from login later -->
         <label>Customer ID</label>
-        <input type="number" id="customerId" class="form-control">
+        <input type="number" id="customerId" class="form-control" readonly>
+        <div class="hint">Fetched automatically from your session</div>
 
-        <button class="btn btn-primary w-100 mt-3"
-                onclick="createReservation()">
+        <button class="btn btn-custom w-100 mt-3" onclick="createReservation()">
             Create Reservation
         </button>
 

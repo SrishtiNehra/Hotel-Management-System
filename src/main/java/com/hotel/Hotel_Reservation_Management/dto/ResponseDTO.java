@@ -12,6 +12,7 @@ public class ResponseDTO {
     private String token;
     private String role;
     private String username;
+    private Long customerId;
     
     
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hotel.Hotel_Reservation_Management.dto.RoomDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Hotel;
 import com.hotel.Hotel_Reservation_Management.entity.Room;
+import com.hotel.Hotel_Reservation_Management.exception.ResourceNotFoundException;
 import com.hotel.Hotel_Reservation_Management.mapper.RoomMapper;
 import com.hotel.Hotel_Reservation_Management.repository.HotelRepository;
 import com.hotel.Hotel_Reservation_Management.repository.RoomRepository;
@@ -17,23 +18,24 @@ import com.hotel.Hotel_Reservation_Management.service.RoomService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
-	@Autowired
+    @Autowired
     private final RoomRepository roomRepository;
-	
-	@Autowired
+
+    @Autowired
     private final HotelRepository hotelRepository;
 
     @Override
     public RoomDTO addRoom(RoomDTO dto) {
 
         Hotel hotel = hotelRepository.findById(dto.getHotelId())
-                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Hotel not found with id: " + dto.getHotelId()
+                ));
 
         Room room = RoomMapper.toEntity(dto, hotel);
 
@@ -44,7 +46,9 @@ public class RoomServiceImpl implements RoomService {
     public RoomDTO getRoomById(Long id) {
         return RoomMapper.toDTO(
                 roomRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Room not found"))
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Room not found with id: " + id
+                        ))
         );
     }
 
@@ -68,7 +72,9 @@ public class RoomServiceImpl implements RoomService {
     public RoomDTO updateRoom(Long id, RoomDTO dto) {
 
         Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Room not found with id: " + id
+                ));
 
         room.setRoomNumber(dto.getRoomNumber());
         room.setRoomType(dto.getRoomType());

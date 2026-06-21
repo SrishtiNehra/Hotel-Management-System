@@ -2,6 +2,7 @@ package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
 import com.hotel.Hotel_Reservation_Management.dto.AdminDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Admin;
+import com.hotel.Hotel_Reservation_Management.exception.ResourceNotFoundException;
 import com.hotel.Hotel_Reservation_Management.mapper.AdminMapper;
 import com.hotel.Hotel_Reservation_Management.repository.AdminRepository;
 import com.hotel.Hotel_Reservation_Management.service.AdminService;
@@ -38,10 +39,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDTO getAdminById(Long id) {
-        return AdminMapper.toDTO(
-                adminRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Admin not found"))
-        );
+
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + id));
+
+        return AdminMapper.toDTO(admin);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
     public AdminDTO updateAdmin(Long id, AdminDTO dto) {
 
         Admin admin = adminRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Admin not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + id));
 
         if (dto.getFullName() != null)
             admin.setFullName(dto.getFullName());
@@ -67,7 +69,7 @@ public class AdminServiceImpl implements AdminService {
         if (dto.getUsername() != null)
             admin.setUsername(dto.getUsername());
 
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty())
+        if (dto.getPassword() != null && !dto.getPassword().isBlank())
             admin.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return AdminMapper.toDTO(adminRepository.save(admin));
@@ -77,12 +79,13 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
     }
-    
+
+    // 🔐 IMPORTANT FOR PROFILE PAGE
     @Override
     public AdminDTO getByUsername(String username) {
 
         Admin admin = adminRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Admin not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with username: " + username));
 
         return AdminMapper.toDTO(admin);
     }

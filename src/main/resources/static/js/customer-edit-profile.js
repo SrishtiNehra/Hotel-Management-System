@@ -10,26 +10,40 @@ window.onload = function () {
     .then(res => res.json())
     .then(data => {
 
-        document.getElementById("username").value = data.username;
-        document.getElementById("fullName").value = data.fullName;
-        document.getElementById("email").value = data.email;
-        document.getElementById("phoneNumber").value = data.phoneNumber;
-        document.getElementById("idProof").value = data.idProof;
+        const username = document.getElementById("username");
+        const fullName = document.getElementById("fullName");
+        const email = document.getElementById("email");
+        const phoneNumber = document.getElementById("phoneNumber");
+        const idProof = document.getElementById("idProof");
 
+        if (username) username.value = data.username;
+        if (fullName) fullName.value = data.fullName;
+        if (email) email.value = data.email;
+        if (phoneNumber) phoneNumber.value = data.phoneNumber;
+        if (idProof) idProof.value = data.idProof; // remove if deleted from backend
     });
 };
 
 function updateProfile() {
 
+    const username = document.getElementById("username");
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("email");
+    const phoneNumber = document.getElementById("phoneNumber");
+
+    if (!username || !fullName || !email || !phoneNumber) {
+        alert("Form not loaded properly");
+        return;
+    }
+
     let updatedCustomer = {
-        username: document.getElementById("username").value,
-        fullName: document.getElementById("fullName").value,
-        email: document.getElementById("email").value,
-        phoneNumber: document.getElementById("phoneNumber").value,
-        idProof: document.getElementById("idProof").value
+        username: username.value,
+        fullName: fullName.value,
+        email: email.value,
+        phoneNumber: phoneNumber.value
     };
 
-    fetch("/api/customer/" + customerId, {
+    fetch("/api/customers/" + customerId, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

@@ -29,6 +29,7 @@ public class Room {
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private RoomStatus status;
 
     @ManyToOne
@@ -37,5 +38,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
+    
+    private BigDecimal pricePerNight;
 
 }

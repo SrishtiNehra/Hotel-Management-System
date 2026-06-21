@@ -1,30 +1,33 @@
-window.onload = function () {
+function parseJwt(token) {
+    if (!token) return null;
+    return JSON.parse(atob(token.split('.')[1]));
+}
 
-    let customerId = 1; // later replace with JWT
+function loadDashboard() {
 
-    fetch("/api/dashboard/customer/" + customerId, {
+    const token = localStorage.getItem("token");
+
+    fetch("/api/dashboard/customer", {
+        method: "GET",
         headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
+            "Authorization": "Bearer " + token
         }
     })
     .then(res => res.json())
     .then(data => {
 
-        document.getElementById("myReservations").innerText = data.totalMyReservations;
-        document.getElementById("activeBookings").innerText = data.activeBookings;
-        document.getElementById("totalBills").innerText = "₹" + data.totalBills;
-        document.getElementById("pendingPayments").innerText = "₹" + data.pendingPayments;
+        document.getElementById("myReservations").innerText =
+            data.totalReservations ?? 0;
 
-        let billsDiv = document.getElementById("myBills");
-        billsDiv.innerHTML = "";
+        document.getElementById("activeBookings").innerText =
+            data.activeBookings ?? 0;
 
-        data.myBills.forEach(b => {
-            billsDiv.innerHTML += `
-                <div class="p-2 bg-white mb-2 rounded shadow-sm">
-                    ₹${b.amount} - ${b.paymentStatus}
-                </div>
-            `;
-        });
+        document.getElementById("totalBills").innerText =
+            "₹" + (data.totalBills ?? 0);
 
+        document.getElementById("pendingPayments").innerText =
+            "₹" + (data.pendingPayments ?? 0);
     });
-};
+}
+
+window.onload = loadDashboard;

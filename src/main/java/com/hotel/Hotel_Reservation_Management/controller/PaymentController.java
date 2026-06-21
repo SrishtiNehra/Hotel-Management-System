@@ -13,10 +13,19 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     // PAY
+//    @PutMapping("/pay/{reservationId}")
+//    public PaymentDTO pay(@PathVariable Long reservationId) {
+//        return paymentService.pay(reservationId);
+//    }
+    
     @PutMapping("/pay/{reservationId}")
-    public PaymentDTO pay(@PathVariable Long reservationId) {
-        return paymentService.pay(reservationId);
+    public PaymentDTO pay(
+            @PathVariable Long reservationId,
+            @RequestBody PaymentDTO dto) {
+
+        return paymentService.pay(reservationId, dto.getAmount());
     }
+    
 
     // GET PAYMENT
     @GetMapping("/{reservationId}")

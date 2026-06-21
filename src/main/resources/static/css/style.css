@@ -5,13 +5,15 @@ body {
     color: #222;
 }
 
+
+
 /* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 15px 40px;
+    padding: 15px 40px 20px 40px;
     background: #0f172a;
-    color: white;
+    color: white !important;
     align-items: center;
 }
 
@@ -24,6 +26,11 @@ body {
 .navbar a {
     color: white;
     text-decoration: none;
+}
+
+.navbar .brand {
+    margin-left: 5px;
+    font-weight: 600;
 }
 
 /* HERO */

@@ -50,5 +50,14 @@ function loadRooms() {
 }
 
 function bookRoom(roomId) {
-    window.location.href = `/customer/create-reservation?roomId=${roomId}`;
+
+    const customerId = localStorage.getItem("customerId");
+
+    if (!customerId) {
+        alert("Customer not logged in properly");
+        return;
+    }
+
+    window.location.href =
+        `/customer/create-reservation?roomId=${roomId}&customerId=${customerId}`;
 }

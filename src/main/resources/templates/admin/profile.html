@@ -9,31 +9,25 @@
     <style>
         body {
             background: #f4f7fb;
-            font-family: 'Segoe UI', sans-serif;
         }
 
         /* SIDEBAR */
         .sidebar {
             width: 220px;
             height: 100vh;
-            background: linear-gradient(180deg, #0b1d3a, #102a43);
-            color: white;
             position: fixed;
+            background: #102a43;
             padding: 20px;
-        }
-
-        .sidebar h4 {
             color: white;
-            margin-bottom: 20px;
         }
 
         .sidebar a {
             display: block;
             color: #cbd5e1;
-            text-decoration: none;
-            margin: 12px 0;
             padding: 10px;
+            text-decoration: none;
             border-radius: 6px;
+            margin-bottom: 8px;
         }
 
         .sidebar a:hover {
@@ -41,35 +35,101 @@
             color: white;
         }
 
-        /* MAIN CONTENT */
+        /* MAIN */
         .main {
             margin-left: 240px;
-            padding: 30px;
+            padding: 40px;
         }
 
-        /* CARD */
-        .card-box {
+        /* PROFILE CARD */
+        .profile-card {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
+            border-radius: 16px;
             max-width: 650px;
             margin: auto;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #0b1d3a, #1f3b5c);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .profile-header h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .profile-body {
+            padding: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .btn-edit {
+            background: #0b1d3a;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-edit:hover {
+            background: #1f3b5c;
         }
 
         /* MODAL */
         #editModal {
             display: none;
             position: fixed;
-            top: 20%;
+            top: 18%;
             left: 50%;
             transform: translateX(-50%);
+            width: 420px;
             background: white;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #0b1d3a;
+            color: white;
+            padding: 15px;
+        }
+
+        .modal-body {
             padding: 20px;
-            width: 380px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 999;
+        }
+
+        .btn-update {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: #15803d;
         }
     </style>
 </head>
@@ -78,54 +138,75 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-
-    <h4>Admin Panel</h4>
-
-    <a href="/dashboard/admin">🏠 Dashboard</a>
-    <a href="/admin/profile">👤 Profile</a>
-    
-
+    <h5 class="mb-4">Admin Panel</h5>
+    <a th:href="@{/dashboard/admin}">Dashboard</a>
+    <a th:href="@{/admin/profile}">Profile</a>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-    <div class="card-box">
+    <div class="profile-card">
 
-        <h3 class="mb-4 text-primary">Admin Profile</h3>
+        <!-- HEADER -->
+        <div class="profile-header">
+            <h4>Admin Profile</h4>
+            <p class="mb-0">Manage your account details</p>
+        </div>
 
-        <input type="hidden" id="adminId">
-        <input type="hidden" id="username">
-        <input type="hidden" id="password">
-        <input type="hidden" id="role">
-        <input type="hidden" id="status">
+        <!-- BODY -->
+        <div class="profile-body">
 
-        <p><b>Username:</b> <span id="usernameView"></span></p>
-        <p><b>Full Name:</b> <span id="fullNameView"></span></p>
-        <p><b>Email:</b> <span id="emailView"></span></p>
+            <input type="hidden" id="adminId">
 
-        <button class="btn btn-primary mt-3" onclick="openEdit()">
-            ✏ Edit Profile
-        </button>
+            <div class="info-row">
+                <span class="info-label">Username</span>
+                <span class="info-value" id="usernameView"></span>
+            </div>
 
+            <div class="info-row">
+                <span class="info-label">Full Name</span>
+                <span class="info-value" id="fullNameView"></span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email</span>
+                <span class="info-value" id="emailView"></span>
+            </div>
+
+            <button class="btn-edit" onclick="openEdit()">
+                Edit Profile
+            </button>
+
+        </div>
     </div>
 
 </div>
 
-<!-- MODAL (UNCHANGED LOGIC) -->
+<!-- MODAL -->
 <div id="editModal">
 
-    <h4>Edit Profile</h4>
+    <div class="modal-header">
+        <h5 class="mb-0">Edit Profile</h5>
+    </div>
 
-    <input class="form-control mb-2" id="fullName" placeholder="Full Name">
-    <input class="form-control mb-2" id="email" placeholder="Email">
+    <div class="modal-body">
 
-    <button class="btn btn-success w-100" onclick="updateProfile()">Update</button>
-    <button class="btn btn-secondary w-100 mt-2" onclick="closeEdit()">Close</button>
+        <input class="form-control mb-3" id="fullName" placeholder="Full Name">
+        <input class="form-control mb-3" id="email" placeholder="Email">
 
+        <button class="btn btn-update w-100" onclick="updateProfile()">
+            Update
+        </button>
+
+        <button class="btn btn-secondary w-100 mt-2" onclick="closeEdit()">
+            Close
+        </button>
+
+    </div>
 </div>
 
-<script src="/js/profile.js"></script>
+<script src="/js/admin-profile.js"></script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.hotel.Hotel_Reservation_Management.validator;
 
 import com.hotel.Hotel_Reservation_Management.dto.ReservationDTO;
 import org.springframework.stereotype.Component;
+import com.hotel.Hotel_Reservation_Management.exception.BadRequestException;
 
 import java.time.LocalDate;
 
@@ -11,15 +12,15 @@ public class ReservationValidator {
     public void validate(ReservationDTO dto) {
 
         if (dto.getPlannedCheckIn() == null || dto.getPlannedCheckOut() == null) {
-            throw new IllegalArgumentException("Check-in and check-out dates are required");
+            throw new BadRequestException("Check-in and check-out dates are required");
         }
 
         if (dto.getPlannedCheckIn().isAfter(dto.getPlannedCheckOut())) {
-            throw new IllegalArgumentException("Check-in cannot be after check-out");
+            throw new BadRequestException("Check-in cannot be after check-out");
         }
 
         if (dto.getPlannedCheckIn().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Check-in date cannot be in the past");
+            throw new BadRequestException("Check-in date cannot be in the past");
         }
 
         if (dto.getCustomerId() == null) {

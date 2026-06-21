@@ -4,6 +4,6 @@ public enum RoomStatus {
 
     AVAILABLE,
     RESERVED,
-    OCCUPIED
+    // BOOKED
 
 }

@@ -4,10 +4,7 @@
 <head>
     <title>Hotel Management</title>
 
-    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
 
     <style>
         body {
@@ -15,7 +12,7 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Sidebar */
+        /* SIDEBAR (UNCHANGED) */
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -38,95 +35,158 @@
             color: white;
         }
 
-        /* Main */
+        /* MAIN */
         .main {
             margin-left: 240px;
             padding: 30px;
         }
 
-        h2 {
-            color: #0b1d3a;
-            font-weight: 700;
+        /* HEADER */
+        .page-title {
+            background: linear-gradient(135deg, #0b1d3a, #1f3b5c);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
-        /* Form */
+        .page-title h2 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* FORM CARD */
         .form-box {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 22px;
+            border-radius: 14px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
         }
 
         .form-control {
             margin-bottom: 10px;
+            border-radius: 8px;
         }
 
         .btn-custom {
             background: #0b1d3a;
             color: white;
+            border-radius: 8px;
+            padding: 10px;
+            transition: 0.3s;
         }
 
         .btn-custom:hover {
-            background: #132a52;
+            background: #1f3b5c;
         }
 
-        /* Table */
-        table {
+        /* TABLE CARD */
+        .table-card {
             background: white;
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 14px;
+            padding: 15px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
-        th {
-            background: #0b1d3a;
-            color: white;
+        table {
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        /* Modal */
+        th {
+            background: #0b1d3a !important;
+            color: white !important;
+            text-align: center;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        /* ACTION BUTTONS */
+        .btn-edit {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-edit:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        /* MODAL */
         #editModal {
             display: none;
             position: fixed;
-            top: 15%;
+            top: 14%;
             left: 50%;
             transform: translateX(-50%);
             background: white;
-            padding: 25px;
-            width: 380px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 22px;
+            width: 420px;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
             z-index: 999;
         }
 
         #editModal h3 {
             color: #0b1d3a;
+            margin-bottom: 15px;
         }
 
         #editModal input {
             width: 100%;
             margin-bottom: 10px;
             padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
 
         .modal-btn {
-            background: #0b1d3a;
-            color: white;
             border: none;
             padding: 8px 12px;
-            border-radius: 6px;
-            margin-right: 5px;
+            border-radius: 8px;
         }
 
-        .modal-btn:hover {
-            background: #132a52;
+        .update-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .update-btn:hover {
+            background: #15803d;
+        }
+
+        .close-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        .close-btn:hover {
+            background: #4b5563;
         }
     </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR (UNCHANGED) -->
 <div class="sidebar">
     <a th:href="@{/dashboard/admin}">Dashboard</a>
     <a th:href="@{/admin/hotels}">Hotel Management</a>
@@ -135,9 +195,13 @@
 <!-- MAIN -->
 <div class="main">
 
-    <h2>Hotel Management</h2>
+    <!-- TITLE -->
+    <div class="page-title">
+        <h2>Hotel Management</h2>
+        <small>Manage hotels, update details, and maintain records</small>
+    </div>
 
-    <!-- ADD HOTEL FORM -->
+    <!-- FORM -->
     <div class="form-box">
 
         <input id="name" class="form-control" placeholder="Hotel Name">
@@ -148,34 +212,40 @@
         <input id="contactNumber" class="form-control" placeholder="Contact">
         <input id="email" class="form-control" placeholder="Email">
 
-        <button class="btn btn-custom w-100" onclick="addHotel()">Add Hotel</button>
+        <button class="btn btn-custom w-100" onclick="addHotel()">
+            + Add Hotel
+        </button>
 
     </div>
 
-    <hr>
-
     <!-- TABLE -->
-    <table class="table table-bordered text-center">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip Code</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+    <div class="table-card">
 
-        <tbody id="hotelTable"></tbody>
-    </table>
+        <table class="table table-hover text-center align-middle mb-0">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody id="hotelTable"></tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
-<!-- ================= EDIT MODAL ================= -->
+<!-- EDIT MODAL -->
 <div id="editModal">
 
     <h3>Edit Hotel</h3>
@@ -190,12 +260,11 @@
     <input id="editContact" placeholder="Contact">
     <input id="editEmail" placeholder="Email">
 
-    <button class="modal-btn" onclick="updateHotel()">Update</button>
-    <button class="modal-btn" onclick="closeModal()">Close</button>
+    <button class="modal-btn update-btn" onclick="updateHotel()">Update</button>
+    <button class="modal-btn close-btn" onclick="closeModal()">Close</button>
 
 </div>
 
-<!-- JS -->
 <script th:src="@{/js/hotel.js}" defer></script>
 
 </body>

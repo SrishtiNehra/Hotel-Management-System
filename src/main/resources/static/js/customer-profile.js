@@ -14,7 +14,6 @@ window.onload = function () {
         document.getElementById("fullName").innerText = data.fullName;
         document.getElementById("email").innerText = data.email;
         document.getElementById("phoneNumber").innerText = data.phoneNumber;
-        document.getElementById("idProof").innerText = data.idProof;
         document.getElementById("status").innerText = data.status;
 
     });

@@ -14,7 +14,6 @@ public class CustomerMapper {
         c.setFullName(dto.getFullName());
         c.setEmail(dto.getEmail());
         c.setPhoneNumber(dto.getPhoneNumber());
-        c.setIdProof(dto.getIdProof());
         c.setRole(dto.getRole());
         c.setStatus(dto.getStatus());
 
@@ -30,7 +29,6 @@ public class CustomerMapper {
         dto.setFullName(c.getFullName());
         dto.setEmail(c.getEmail());
         dto.setPhoneNumber(c.getPhoneNumber());
-        dto.setIdProof(c.getIdProof());
         dto.setRole(c.getRole());
         dto.setStatus(c.getStatus());
 

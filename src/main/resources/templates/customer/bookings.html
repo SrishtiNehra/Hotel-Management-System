@@ -10,6 +10,7 @@
         body {
             background: #f4f7fb;
             font-family: 'Segoe UI', sans-serif;
+            margin: 0;
         }
 
         /* SIDEBAR */
@@ -44,38 +45,100 @@
             padding: 30px;
         }
 
-        h2 {
-            color: #0b1d3a;
-            font-weight: 700;
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #0b1d3a, #1f3b5c);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
-        /* TABLE */
-        table {
+        .page-header h2 {
+            margin: 0;
+        }
+
+        /* TABLE CARD */
+        .table-box {
             background: white;
-            border-radius: 10px;
-            overflow: hidden;
+            padding: 18px;
+            border-radius: 14px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
+        table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
         th {
-            background: #0b1d3a;
+            background: #0b1d3a !important;
+            color: white !important;
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* STATUS BADGES */
+        .status {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .BOOKED { background: #2563eb; color: white; }
+        .CANCELLED { background: #dc2626; color: white; }
+        .CHECKED_IN { background: #16a34a; color: white; }
+        .CHECKED_OUT { background: #6b7280; color: white; }
+
+        /* ACTION BUTTONS */
+        .btn-edit {
+            background: #2563eb;
             color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-edit:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
         }
 
         /* MODAL */
         #editModal {
             display: none;
             position: fixed;
-            top: 20%;
+            top: 15%;
             left: 50%;
             transform: translateX(-50%);
             background: white;
             padding: 25px;
-            border-radius: 12px;
-            width: 350px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 14px;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             z-index: 999;
+        }
+
+        #editModal input,
+        #editModal select {
+            margin-bottom: 10px;
         }
 
         .modal-btn {
@@ -83,11 +146,16 @@
             color: white;
             border: none;
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .modal-btn:hover {
-            background: #132a52;
+            background: #1f3b5c;
+        }
+
+        /* HOVER EFFECT */
+        tr:hover {
+            background: #f1f5f9;
         }
     </style>
 </head>
@@ -97,7 +165,7 @@
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-    <h3>Customer</h3>
+    <h3 class="mb-4">Customer</h3>
 
     <a th:href="@{/dashboard/customer}">Dashboard</a>
     <a th:href="@{/customer/create-reservation}">Create Reservation</a>
@@ -109,29 +177,38 @@
 <!-- MAIN -->
 <div class="main">
 
-    <h2>My Bookings</h2>
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>My Bookings</h2>
+        <small>View and manage your reservations</small>
+    </div>
 
-    <table class="table table-bordered text-center">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Check In</th>
-            <th>Check Out</th>
-            <th>Status</th>
-            <th>Room</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+    <!-- TABLE -->
+    <div class="table-box">
 
-        <tbody id="bookingTable"></tbody>
-        
-    </table>
+        <table class="table table-hover mb-0">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Room</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody id="bookingTable"></tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
 <!-- EDIT MODAL -->
-<div id="editModal"
-     style="display:none; position:fixed; top:20%; left:50%;
-     transform:translateX(-50%); background:white; padding:20px;">
+<div id="editModal">
 
     <input type="hidden" id="editId">
 
@@ -141,7 +218,6 @@
     <label>Check Out</label>
     <input type="date" id="editCheckOut" class="form-control">
 
-    <!-- ENUM FIX -->
     <label>Status</label>
     <select id="editStatus" class="form-control">
         <option value="BOOKED">BOOKED</option>
@@ -149,15 +225,10 @@
         <option value="CHECKED_IN">CHECKED_IN</option>
         <option value="CHECKED_OUT">CHECKED_OUT</option>
     </select>
-    
 
-    <button onclick="updateReservation()" class="btn btn-primary w-100 mt-2">
-        Update
-    </button>
+    <button onclick="updateReservation()" class="modal-btn w-100 mt-2">Update</button>
+    <button onclick="closeModal()" class="btn btn-secondary w-100 mt-2">Close</button>
 
-    <button onclick="closeModal()" class="btn btn-secondary w-100 mt-2">
-        Close
-    </button>
 </div>
 
 <script src="/js/bookings.js"></script>

@@ -2,10 +2,10 @@ package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
 import com.hotel.Hotel_Reservation_Management.dto.HotelDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Hotel;
+import com.hotel.Hotel_Reservation_Management.exception.ResourceNotFoundException;
 import com.hotel.Hotel_Reservation_Management.mapper.HotelMapper;
 import com.hotel.Hotel_Reservation_Management.repository.HotelRepository;
 import com.hotel.Hotel_Reservation_Management.service.HotelService;
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
-	@Autowired
+    @Autowired
     private final HotelRepository hotelRepository;
 
     @Override
@@ -35,7 +35,9 @@ public class HotelServiceImpl implements HotelService {
     public HotelDTO getHotelById(Long id) {
         return HotelMapper.toDTO(
                 hotelRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Hotel not found"))
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Hotel not found with id: " + id
+                        ))
         );
     }
 
@@ -51,7 +53,9 @@ public class HotelServiceImpl implements HotelService {
     public HotelDTO updateHotel(Long id, HotelDTO dto) {
 
         Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Hotel not found with id: " + id
+                ));
 
         hotel.setName(dto.getName());
         hotel.setAddress(dto.getAddress());

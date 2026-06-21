@@ -25,8 +25,6 @@ public class Customer extends User {
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    private String idProof;
-
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL)
     private List<Reservation> reservations;

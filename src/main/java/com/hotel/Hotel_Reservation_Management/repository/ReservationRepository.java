@@ -29,4 +29,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     long countByStatus(ReservationStatus status);
 
     long countByCustomer_CustomerId(Long customerId);
-}
+    
+    long countByCustomer_CustomerIdAndStatus(Long customerId, ReservationStatus status);
+
+    @Query("""
+    	    SELECT COUNT(r)
+    	    FROM Reservation r
+    	    WHERE r.customer.customerId = :customerId
+    	    AND r.status = :status
+    	""")
+    	long countActiveBookings(@Param("customerId") Long customerId,
+    	                         @Param("status") ReservationStatus status);}

@@ -5,6 +5,8 @@ import com.hotel.Hotel_Reservation_Management.enums.ReservationStatus;
 import com.hotel.Hotel_Reservation_Management.service.ReservationService;
 import com.hotel.Hotel_Reservation_Management.validator.ReservationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -26,20 +28,25 @@ public class ReservationController {
         return reservationService.createReservation(dto);
     }
 
+    @GetMapping
+    public List<ReservationDTO> getMyReservations(Authentication authentication) {
+        return reservationService.getReservationsByLoggedInUser(authentication);
+    }
+    
     @GetMapping("/{id}")
     public ReservationDTO getById(@PathVariable Long id) {
         return reservationService.getReservationById(id);
     }
 
-    @GetMapping
-    public List<ReservationDTO> getAll() {
-        return reservationService.getAllReservations();
-    }
+//    @GetMapping
+//    public List<ReservationDTO> getAll() {
+//        return reservationService.getAllReservations();
+//    }
 
-    @GetMapping("/customer/{customerId}")
-    public List<ReservationDTO> getByCustomer(@PathVariable Long customerId) {
-        return reservationService.getReservationsByCustomer(customerId);
-    }
+//    @GetMapping("/customer/{customerId}")
+//    public List<ReservationDTO> getByCustomer(@PathVariable Long customerId) {
+//        return reservationService.getReservationsByCustomer(customerId);
+//    }
 
     @PutMapping("/{id}")
     public ReservationDTO update(@PathVariable Long id, @RequestBody ReservationDTO dto) {
@@ -65,7 +72,22 @@ public class ReservationController {
     }
 
     @PutMapping("/{id}/cancel")
-    public void cancel(@PathVariable Long id) {
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
         reservationService.cancelReservation(id);
+        return ResponseEntity.ok("Cancelled");
+    }
+    
+    @PostMapping("/checkout/{reservationId}")
+    public ResponseEntity<String> checkout(@PathVariable Long reservationId) {
+
+        reservationService.checkout(reservationId);
+
+        return ResponseEntity.ok("Checkout successful & bill generated");
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteReservation(@PathVariable Long id) {
+        reservationService.deleteReservation(id);
+        return ResponseEntity.ok("Deleted successfully");
     }
 }

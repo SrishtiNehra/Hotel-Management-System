@@ -28,8 +28,6 @@ public class CustomerDTO {
     @Pattern(regexp = "^[0-9]{10}$")
     private String phoneNumber;
 
-    private String idProof;
-
     private Role role;
 
     private UserStatus status;

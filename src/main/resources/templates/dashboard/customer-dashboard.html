@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Customer Dashboard</title>
@@ -10,7 +10,7 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: #f4f7fb;
+            background: linear-gradient(120deg, #f4f7fb, #e9eef5);
         }
 
         /* TOP BAR */
@@ -57,7 +57,6 @@
             margin: 12px 0;
             padding: 10px;
             border-radius: 6px;
-            white-space: nowrap;
         }
 
         .sidebar a:hover {
@@ -72,12 +71,32 @@
         /* MAIN */
         .main {
             margin-left: 260px;
-            padding: 80px 20px 20px;
+            padding: 90px 25px 25px;
             transition: 0.3s;
         }
 
         .main.expanded {
             margin-left: 90px;
+        }
+
+        /* WELCOME BOX */
+        .welcome-box {
+            background: linear-gradient(135deg, #0b1d3a, #1f3b5c);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .welcome-box h2 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .welcome-box p {
+            margin-top: 8px;
+            opacity: 0.85;
         }
 
         /* CARDS */
@@ -93,6 +112,11 @@
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
         }
 
         .card h3 {
@@ -119,28 +143,25 @@
 
     <a th:href="@{/dashboard/customer}"><span>Dashboard</span></a>
     <a th:href="@{/customer/profile}"><span>My Profile</span></a>
-    <a th:href="@{/customer/edit-profile}"><span>Edit Profile</span></a>
-
     <a th:href="@{/customer/bookings}"><span>My Bookings</span></a>
     <a th:href="@{/customer/bills}"><span>My Bills</span></a>
-
     <a th:href="@{/customer/create-reservation}"><span>Create Reservation</span></a>
     <a th:href="@{/customer/rooms}"><span>Room Booking</span></a>
-
     <a th:href="@{/customer/payment}"><span>Payment</span></a>
 
-    <a th:href="@{/customer/checkin-history}"><span>Check-in / Check-out</span></a>
-
-    <!-- Logout unchanged style -->
-    <a th:href="@{/}" class="logout">
-        <span>Logout</span>
-    </a>
-
+    <a th:href="@{/}" class="logout"><span>Logout</span></a>
 </div>
 
 <!-- MAIN -->
 <div class="main" id="main">
 
+    <!-- WELCOME SECTION -->
+    <div class="welcome-box">
+        <h2>Welcome, <span th:text="${customerName}">Customer</span> 👋</h2>
+        <p>Here’s a quick overview of your bookings and activity.</p>
+    </div>
+
+    <!-- CARDS -->
     <div class="grid">
 
         <div class="card">
@@ -158,14 +179,9 @@
             <p id="totalBills">₹0</p>
         </div>
 
-        <div class="card">
-            <h3>Pending Payments</h3>
-            <p id="pendingPayments">₹0</p>
-        </div>
+       
 
     </div>
-
-    
 
 </div>
 

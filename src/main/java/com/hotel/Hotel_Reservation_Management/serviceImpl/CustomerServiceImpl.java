@@ -1,6 +1,5 @@
 package com.hotel.Hotel_Reservation_Management.serviceImpl;
 
-
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -10,23 +9,24 @@ import org.springframework.stereotype.Service;
 
 import com.hotel.Hotel_Reservation_Management.dto.CustomerDTO;
 import com.hotel.Hotel_Reservation_Management.entity.Customer;
+import com.hotel.Hotel_Reservation_Management.exception.ResourceNotFoundException;
 import com.hotel.Hotel_Reservation_Management.mapper.CustomerMapper;
 import com.hotel.Hotel_Reservation_Management.repository.CustomerRepository;
 import com.hotel.Hotel_Reservation_Management.service.CustomerService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-	@Autowired
+    @Autowired
     private final CustomerRepository customerRepository;
-	
-	@Autowired
+
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -42,7 +42,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerById(Long id) {
         return CustomerMapper.toDTO(
                 customerRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Customer not found"))
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Customer not found with id: " + id
+                        ))
         );
     }
 
@@ -58,12 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO updateCustomer(Long id, CustomerDTO dto) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Customer not found with id: " + id
+                ));
 
         customer.setFullName(dto.getFullName());
         customer.setEmail(dto.getEmail());
         customer.setPhoneNumber(dto.getPhoneNumber());
-        customer.setIdProof(dto.getIdProof());
         customer.setUsername(dto.getUsername());
 
         if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
@@ -76,5 +79,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<CustomerDTO> findByUsername(String username) {
+        return customerRepository.findByUsername(username)
+                .map(CustomerMapper::toDTO);
     }
 }

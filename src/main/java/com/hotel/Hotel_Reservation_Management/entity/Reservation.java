@@ -40,4 +40,9 @@ public class Reservation {
             cascade = CascadeType.ALL)
     private Billing billing;
 
+	public void setActualCheckOut(LocalDate now) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

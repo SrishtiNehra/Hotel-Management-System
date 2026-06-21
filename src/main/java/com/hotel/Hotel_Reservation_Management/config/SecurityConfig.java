@@ -46,6 +46,12 @@ public class SecurityConfig {
                 .requestMatchers("/api/admins/**").permitAll()
                 .requestMatchers("/customer/**").permitAll()
                 .requestMatchers("/api/customers/**").permitAll()
+                .requestMatchers("/api/dashboard/**").authenticated()
+                .requestMatchers("/api/reservation/**").authenticated()
+                .requestMatchers("/api/reservations/**").authenticated()
+                .requestMatchers("/api/billings/**").permitAll()
+                .requestMatchers("/api/admins/profile").authenticated()
+                
                 
 
                 // ✅ ROLE BASED APIs
