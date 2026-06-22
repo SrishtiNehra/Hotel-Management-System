@@ -38,8 +38,10 @@ public class SecurityConfig {
                     "/images/**",
                     "/favicon.ico",
                     "/actuator/**",
+                    "/v3/api-docs/**",
                     "/swagger-ui/**",
-                    "/v3/api/docs/**"
+                    "/swagger-ui.html",
+                    "/api-docs/**"
                    
                 ).permitAll()
                 
@@ -87,11 +89,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ REQUIRED FIX (VERY IMPORTANT)
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
