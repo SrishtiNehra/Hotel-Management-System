@@ -14,7 +14,7 @@
 
 	<groupId>com.hotel</groupId>
 	<artifactId>hotel-room-reservation-system</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 
 	<name>Hotel Room Reservation System</name>
 	<description>Spring Boot MVC Hotel Reservation System</description>
@@ -179,6 +179,7 @@
 			</plugin>
 
 		</plugins>
+		<finalName>hms</finalName>
 	</build>
 
 </project>

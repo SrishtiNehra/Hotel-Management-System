@@ -37,7 +37,9 @@ public class SecurityConfig {
                     "/js/**",
                     "/images/**",
                     "/favicon.ico",
-                    "/actuator/**"
+                    "/actuator/**",
+                    "/swagger-ui/**",
+                    "/v3/api/docs/**"
                    
                 ).permitAll()
                 
