@@ -1,0 +1,109 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk "java17"
+        maven "Maven"
+    }
+
+    environment {
+        APP_NAME = "hms-app"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        FULL_IMAGE = "hms-app:${BUILD_NUMBER}"
+        DOCKER_FILE = "Dockerfile"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                echo 'Pulling code from GitHub'
+                git branch: 'main',
+                    credentialsId: 'gitcred',
+                    url: 'https://github.com/SrishtiNehra/Hotel-Management-System.git'
+            }
+        }
+
+        stage('Build JAR') {
+            steps {
+                echo 'Building Maven project'
+                bat 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo "Building Docker image: ${FULL_IMAGE}"
+
+                // IMPORTANT: use explicit Dockerfile path safety
+                bat "docker build -f ${DOCKER_FILE} -t ${FULL_IMAGE} ."
+            }
+        }
+
+        stage('Start Minikube') {
+            steps {
+                echo 'Ensuring Minikube is running'
+                bat 'minikube status || minikube start'
+                bat 'kubectl get nodes'
+            }
+        }
+
+        stage('Load Image into Minikube') {
+            steps {
+                echo "Loading image into Minikube: ${FULL_IMAGE}"
+                bat "minikube image load ${FULL_IMAGE}"
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo 'Applying Kubernetes manifests'
+
+                // BEST PRACTICE: apply first, then set image cleanly
+                bat "kubectl apply -f K8s/"
+
+                // ensure correct image is used
+                bat "kubectl set image deployment/hms-deployment hms-container=${FULL_IMAGE}"
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                echo 'Checking rollout status'
+
+                bat "kubectl rollout status deployment/hms-deployment --timeout=180s"
+                bat "kubectl get pods"
+                bat "kubectl get svc"
+            }
+        }
+
+        stage('Expose Application') {
+            steps {
+                echo 'Getting service URL'
+                bat "minikube service hms-service --url"
+            }
+        }
+
+        stage('Open Dashboard') {
+            steps {
+                echo 'Opening Kubernetes dashboard'
+                bat "minikube addons enable metrics-server"
+                bat "minikube dashboard --url"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment successful: ${FULL_IMAGE}"
+        }
+
+        failure {
+            echo 'Pipeline failed. Check logs.'
+        }
+
+        always {
+            echo 'Pipeline completed'
+        }
+    }
+}
